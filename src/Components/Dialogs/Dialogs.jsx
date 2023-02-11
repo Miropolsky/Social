@@ -1,30 +1,29 @@
+import { DialogItem } from './DialogItem/DialogItem';
+import { Message } from './Message/Message';
 import styles from './Dialogs.module.scss';
 
-export default function Dialogs() {
+export default function Dialogs({ state }) {
     return (
         <div className={styles.container}>
             <div className={styles.dialogs}>
-                <div className={`${styles.dialog} ${styles.activeDialog}`}>
-                    Andrey
-                </div>
-                <div className={styles.dialog}>
-                    Alexey
-                </div>
-                <div className={styles.dialog}>
-                    Sergey
-                </div>
-                <div className={styles.dialog}>
-                    Vasya
-                </div>
-                <div className={styles.dialog}>
-                    Ivan
-                </div>
+                {state.dialogs.map((dialogaItem) => {
+                    return (
+                        <DialogItem
+                            key={dialogaItem.id}
+                            name={dialogaItem.name}
+                            id={dialogaItem.id}
+                            imgUrl={dialogaItem.imgUrl}
+                        />
+                    );
+                })}
             </div>
             <div className={styles.messages}>
-                <div className={styles.message}>Привет! Как дела</div>
-                <div className={styles.message}>Привет, у меня отлично, у тебя как?</div>
-                <div className={styles.message}>Тоже хорошо</div>
+                {state.messages.map((message) => {
+                    return (
+                        <Message message={message.message} key={message.id} />
+                    );
+                })}
             </div>
         </div>
-    )
+    );
 }

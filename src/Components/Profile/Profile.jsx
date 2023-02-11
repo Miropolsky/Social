@@ -1,19 +1,12 @@
-import Post from '../Post/Post'
-import styles from './Profile.module.scss'
+import { MyPost } from './MyPost/MyPost';
+// import styles from './Profile.module.scss';
+import { ProfileInfo } from './ProfileInfo/ProfileInfo';
 
-export default function Profile() {
+export default function Profile({ state }) {
     return (
         <div>
-            <div className={styles.img}>
-                <img src='https://answit.com/wp-content/uploads/2017/01/full-hd.jpg' width={1000} height={400} alt='img'/>
-            </div>
-            <div>MyPosts</div>
-            <textarea></textarea>
-            <div>
-                <Post text='Привет! Как дела'/>
-                <Post text='Хорошо, ты как?'/>
-                <Post text='Отлично!'/>
-            </div>
+            <ProfileInfo />
+            <MyPost postsData={state.posts} />
         </div>
-    )
+    );
 }
