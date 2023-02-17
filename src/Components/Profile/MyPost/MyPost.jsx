@@ -1,20 +1,31 @@
 import Post from './Post/Post';
 import styles from './MyPost.module.scss';
-
-export function MyPost({ postsData }) {
+import React, { useRef } from 'react';
+export function MyPost(props) {
+    let newPost = useRef();
+    const updateText = () => {
+        props.updateNewPostText(newPost.current.value);
+    };
+    const addPost = () => {
+        props.addPost();
+    };
     return (
         <div className={styles.postsBlock}>
             <h3>MyPosts</h3>
             <div>
                 <div>
-                    <textarea></textarea>
+                    <textarea
+                        onChange={updateText}
+                        ref={newPost}
+                        value={props.newPostText}
+                    ></textarea>
                 </div>
                 <div>
-                    <button>Add post</button>
+                    <button onClick={addPost}>Add post</button>
                 </div>
             </div>
             <div className={styles.posts}>
-                {postsData.map((post) => {
+                {props.postsData.map((post) => {
                     return (
                         <Post
                             message={post.message}

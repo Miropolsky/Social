@@ -1,29 +1,29 @@
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import './App.css';
-import Dialogs from './Components/Dialogs/Dialogs';
 import Header from './Components/Header/Header';
-import NavBar from './Components/NavBar/NavBar';
 import Profile from './Components/Profile/Profile';
 import News from './Components/News/News';
 import Music from './Components/Music/Music';
 import Setting from './Components/Setting/Setting';
+import DialogsContainer from './Components/Dialogs/DialogsContainer';
+import NavBarContainer from './Components/NavBar/NavBarContainer';
 
-function App({ AppState }) {
+function App({ store }) {
     return (
         <BrowserRouter>
             <div className='App'>
                 <Header className='header' />
                 <div className='content'>
-                    <NavBar className='navBar' state={AppState.siteBar} />
+                    <NavBarContainer className='navBar' store={store} />
                     {/* <Profile className='profile'/> */}
                     <Routes>
                         <Route
                             path='profile'
-                            element={<Profile state={AppState.profilePage} />}
+                            element={<Profile store={store} />}
                         />
                         <Route
                             path='/dialogs/*'
-                            element={<Dialogs state={AppState.dialogsPage} />}
+                            element={<DialogsContainer store={store} />}
                         />
                         <Route path='news' element={<News />} />
                         <Route path='music' element={<Music />} />
