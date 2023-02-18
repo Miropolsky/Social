@@ -8,22 +8,19 @@ import Setting from './Components/Setting/Setting';
 import DialogsContainer from './Components/Dialogs/DialogsContainer';
 import NavBarContainer from './Components/NavBar/NavBarContainer';
 
-function App({ store }) {
+function App() {
     return (
         <BrowserRouter>
             <div className='App'>
                 <Header className='header' />
                 <div className='content'>
-                    <NavBarContainer className='navBar' store={store} />
+                    <NavBarContainer className='navBar' />
                     {/* <Profile className='profile'/> */}
                     <Routes>
-                        <Route
-                            path='profile'
-                            element={<Profile store={store} />}
-                        />
+                        <Route path='profile' element={<Profile />} />
                         <Route
                             path='/dialogs/*'
-                            element={<DialogsContainer store={store} />}
+                            element={<DialogsContainer />}
                         />
                         <Route path='news' element={<News />} />
                         <Route path='music' element={<Music />} />

@@ -1,6 +1,11 @@
 import NavBar from './NavBar';
+import { connect } from 'react-redux';
 
-export default function NavBarContainer({ store }) {
-    const state = store.getState();
-    return <NavBar frinedsData={state.siteBar.friends} />;
-}
+const mapStatetoProps = (state) => {
+    return {
+        frinedsData: state.siteBar.friends,
+    };
+};
+
+const NavBarContainer = connect(mapStatetoProps)(NavBar);
+export default NavBarContainer;

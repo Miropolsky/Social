@@ -1,9 +1,5 @@
-import styles from './Setting.module.scss';
+// import styles from './Setting.module.scss';
 
 export default function Setting() {
-    return (
-        <div>
-            Setting
-        </div>
-    )
+    return <div>Setting</div>;
 }

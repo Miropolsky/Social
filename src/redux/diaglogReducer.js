@@ -53,17 +53,22 @@ const updateNewMessageTextCreator = (text) => {
 
 const dialogReducer = (state = initialState, action) => {
     switch (action.type) {
-        case UPDATE_NEW_MESSAGE_TEXT:
-            state.newMessageText = action.text;
-            return state;
-        case ADD_MESSAGE:
+        case UPDATE_NEW_MESSAGE_TEXT: {
+            const stateCopy = { ...state };
+            stateCopy.newMessageText = action.text;
+            return stateCopy;
+        }
+
+        case ADD_MESSAGE: {
+            const stateCopy = { ...state };
             const newMessage = {
                 id: 4,
-                message: state.newMessageText,
+                message: stateCopy.newMessageText,
             };
-            state.messages.push(newMessage);
-            state.newMessageText = '';
-            return state;
+            stateCopy.messages.push(newMessage);
+            stateCopy.newMessageText = '';
+            return stateCopy;
+        }
         default:
             return state;
     }

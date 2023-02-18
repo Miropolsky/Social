@@ -24,18 +24,23 @@ const updateNewPostTextCreator = (text) => {
 
 const profileReducer = (state = initialState, action) => {
     switch (action.type) {
-        case ADD_POST:
+        case ADD_POST: {
+            const stateCopy = { ...state };
             const newPost = {
                 id: 5,
-                message: state.newPostText,
+                message: stateCopy.newPostText,
                 likesCount: 0,
             };
-            state.posts.push(newPost);
-            state.newPostText = '';
-            return state;
-        case UPDATE_NEW_POST_TEXT:
-            state.newPostText = action.newText;
-            return state;
+            stateCopy.posts.push(newPost);
+            stateCopy.newPostText = '';
+            return stateCopy;
+        }
+        case UPDATE_NEW_POST_TEXT: {
+            const stateCopy = { ...state };
+            stateCopy.newPostText = action.newText;
+            return stateCopy;
+        }
+
         default:
             return state;
     }
