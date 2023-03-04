@@ -10,7 +10,7 @@ export default function NavBar({ frinedsData }) {
             <NavMenu text='News' link='news' />
             <NavMenu text='Music' link='music' />
             <NavMenu text='Setting' link='setting' />
-
+            <NavMenu text='Users' link='users' />
             <Friends friends={frinedsData} />
         </div>
     );

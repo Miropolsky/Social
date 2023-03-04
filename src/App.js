@@ -3,10 +3,11 @@ import './App.css';
 import Header from './Components/Header/Header';
 import Profile from './Components/Profile/Profile';
 import News from './Components/News/News';
-import Music from './Components/Music/Music';
 import Setting from './Components/Setting/Setting';
 import DialogsContainer from './Components/Dialogs/DialogsContainer';
 import NavBarContainer from './Components/NavBar/NavBarContainer';
+import UsersContainer from './Components/Users/UsersContainer';
+import MusicContainer from './Components/Music/MusicContainer';
 
 function App() {
     return (
@@ -22,8 +23,9 @@ function App() {
                             path='/dialogs/*'
                             element={<DialogsContainer />}
                         />
+                        <Route path='/users/*' element={<UsersContainer />} />
                         <Route path='news' element={<News />} />
-                        <Route path='music' element={<Music />} />
+                        <Route path='music' element={<MusicContainer />} />
                         <Route path='setting' element={<Setting />} />
                     </Routes>
                 </div>
