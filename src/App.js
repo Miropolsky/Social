@@ -1,24 +1,29 @@
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import './App.css';
-import Header from './Components/Header/Header';
-import Profile from './Components/Profile/Profile';
 import News from './Components/News/News';
 import Setting from './Components/Setting/Setting';
 import DialogsContainer from './Components/Dialogs/DialogsContainer';
 import NavBarContainer from './Components/NavBar/NavBarContainer';
 import UsersContainer from './Components/Users/UsersContainer';
 import MusicContainer from './Components/Music/MusicContainer';
+import ProfileContainer from './Components/Profile/ProfileContainer';
+import HeaderContainer from './Components/Header/HeaderContainer';
 
 function App() {
     return (
         <BrowserRouter>
             <div className='App'>
-                <Header className='header' />
+                <HeaderContainer className='header' />
                 <div className='content'>
                     <NavBarContainer className='navBar' />
                     {/* <Profile className='profile'/> */}
                     <Routes>
-                        <Route path='profile' element={<Profile />} />
+                        <Route path='profile' element={<ProfileContainer />}>
+                            <Route
+                                path=':userId'
+                                element={<ProfileContainer />}
+                            />
+                        </Route>
                         <Route
                             path='/dialogs/*'
                             element={<DialogsContainer />}

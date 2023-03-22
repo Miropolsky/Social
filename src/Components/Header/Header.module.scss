@@ -1,4 +1,11 @@
 .container{
     height: 60px;
     background-color: green;
+
+    .loginBlock{
+        float: right;
+        a{
+            color: white;
+        }
+    }
 }

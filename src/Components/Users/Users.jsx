@@ -1,6 +1,8 @@
 import styles from './Users.module.scss';
 import defaultAvatar from '../../assets/img/defaultAvatar.jpg';
 import React from 'react';
+import { NavLink } from 'react-router-dom';
+import axios from 'axios';
 
 export default function Users(props) {
     let pagesCount = Math.ceil(props.totalUsersCount / props.pageSize);
@@ -9,16 +11,19 @@ export default function Users(props) {
         pages.push(i);
     }
     return (
-        <div>
-            <div>
+        <div className={styles.container}>
+            <div className={styles.pages}>
                 {pages.map((el) => {
                     return (
                         <span
-                            onClick={(e) => {
+                            key={el}
+                            onClick={() => {
                                 props.onPageChange(el);
                             }}
                             className={
-                                props.currentPage === el && styles.selectedPage
+                                props.currentPage === el
+                                    ? styles.selectedPage
+                                    : null
                             }
                         >
                             {el}
@@ -27,26 +32,67 @@ export default function Users(props) {
                 })}
             </div>
             {props.users.map((u) => (
-                <div key={u.id}>
+                <div key={u.id} className={styles.user}>
                     <span>
                         <div>
-                            <img
-                                src={
-                                    u.photos.small
-                                        ? u.photos.small
-                                        : defaultAvatar
-                                }
-                                alt={'Аватарка'}
-                                className={styles.userPhoto}
-                            />
+                            <NavLink to={`/profile/${u.id}`}>
+                                <img
+                                    src={
+                                        u.photos.small
+                                            ? u.photos.small
+                                            : defaultAvatar
+                                    }
+                                    alt={'Аватарка'}
+                                    className={styles.userPhoto}
+                                />
+                            </NavLink>
                         </div>
                         <div>
                             {u.followed ? (
-                                <button onClick={() => props.unfollow(u.id)}>
+                                <button
+                                    onClick={() => {
+                                        axios
+                                            .delete(
+                                                `https://social-network.samuraijs.com/api/1.0/follow/${u.id}`,
+                                                {
+                                                    withCredentials: true,
+                                                    headers: {
+                                                        'API-KEY':
+                                                            'bcba525e-6861-49a2-bdf5-e6811f431bde',
+                                                    },
+                                                }
+                                            )
+                                            .then((res) => {
+                                                if (res.data.resultCode === 0) {
+                                                    props.unfollow(u.id);
+                                                }
+                                            });
+                                    }}
+                                >
                                     Unfollow
                                 </button>
                             ) : (
-                                <button onClick={() => props.follow(u.id)}>
+                                <button
+                                    onClick={() => {
+                                        axios
+                                            .post(
+                                                `https://social-network.samuraijs.com/api/1.0/follow/${u.id}`,
+                                                {},
+                                                {
+                                                    withCredentials: true,
+                                                    headers: {
+                                                        'API-KEY':
+                                                            'bcba525e-6861-49a2-bdf5-e6811f431bde',
+                                                    },
+                                                }
+                                            )
+                                            .then((res) => {
+                                                if (res.data.resultCode === 0) {
+                                                    props.follow(u.id);
+                                                }
+                                            });
+                                    }}
+                                >
                                     Follow
                                 </button>
                             )}

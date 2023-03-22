@@ -1,8 +1,21 @@
-.userPhoto{
-    height: 100px;
-    width: 100px;
-}
+.container{
+    margin-left: 20px;
+    .user{
+        margin-top: 15px;
+        .userPhoto{
+            height: 100px;
+            width: 100px;
+        }
+    }
 
-.selectedPage{
-    font-weight: bold;
+    .pages{
+        margin-top: 20px;
+        .selectedPage{
+            font-weight: bold;
+        }
+        span{
+            margin-left: 3px;
+            cursor: pointer;
+        }
+    }
 }

@@ -4,6 +4,7 @@ import { dialogReducer } from './diaglogReducer';
 import siteBarReducer from './siteBarReducer';
 import { usersReducer } from './usersReducer';
 import musicReducer from './musicReducer';
+import { authReducer } from './authReducer';
 
 let reducers = combineReducers({
     profilePage: profileReducer,
@@ -11,6 +12,7 @@ let reducers = combineReducers({
     siteBar: siteBarReducer,
     usersPage: usersReducer,
     musicPage: musicReducer,
+    auth: authReducer,
 });
 let store = createStore(reducers);
 

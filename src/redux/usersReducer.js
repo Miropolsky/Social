@@ -6,35 +6,7 @@ const SET_TOTAL_COUNT = 'SET_TOTAL_COUNT';
 const TOGGLE_IS_FETCHING = 'TOGGLE_IS_FETCHING';
 
 const initialState = {
-    users: [
-        // {
-        //     id: 1,
-        //     photoUrl:
-        //         'https://kartinkin.net/uploads/posts/2022-02/thumbs/1645485890_21-kartinkin-net-p-top-kartinki-na-avu-24.jpg',
-        //     followed: false,
-        //     fullName: 'Pavel',
-        //     status: 'Пашка лучший',
-        //     location: { city: 'Moscow', country: 'Russia' },
-        // },
-        // {
-        //     id: 2,
-        //     photoUrl:
-        //         'https://kartinkin.net/uploads/posts/2022-02/thumbs/1645485890_21-kartinkin-net-p-top-kartinki-na-avu-24.jpg',
-        //     followed: true,
-        //     fullName: 'Саша',
-        //     status: 'Саша программист в Москве',
-        //     location: { city: 'Ekaterinburg', country: 'Russia' },
-        // },
-        // {
-        //     id: 3,
-        //     photoUrl:
-        //         'https://kartinkin.net/uploads/posts/2022-02/thumbs/1645485890_21-kartinkin-net-p-top-kartinki-na-avu-24.jpg',
-        //     followed: false,
-        //     fullName: 'Леха',
-        //     status: 'Я самый главный в Москве',
-        //     location: { city: 'Salda', country: 'Russia' },
-        // },
-    ],
+    users: [],
     pageSize: 5,
     totalUsersCount: 20,
     currentPage: 1,

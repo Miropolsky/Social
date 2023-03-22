@@ -3,11 +3,11 @@
 import { ProfileInfo } from './ProfileInfo/ProfileInfo';
 import MyPostContainer from './MyPost/MyPostContainer';
 
-export default function Profile({ store }) {
+export default function Profile(props) {
     return (
         <div>
-            <ProfileInfo />
-            <MyPostContainer store={store} />
+            <ProfileInfo profile={props.profile} />
+            <MyPostContainer />
         </div>
     );
 }
