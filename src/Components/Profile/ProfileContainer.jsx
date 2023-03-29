@@ -1,4 +1,3 @@
-import axios from 'axios';
 import React from 'react';
 import { connect } from 'react-redux';
 import { useParams } from 'react-router-dom';
@@ -18,13 +17,7 @@ function withRouter(Children) {
 
 class ProfileContainer extends React.Component {
     componentDidMount() {
-        axios
-            .get(
-                `https://social-network.samuraijs.com/api/1.0/profile/${this.props.userId}`
-            )
-            .then((res) => {
-                this.props.setUserProfile(res.data);
-            });
+        this.props.setUserProfile(this.props.userId);
     }
     render() {
         return <Profile {...this.props} profile={this.props.profile} />;

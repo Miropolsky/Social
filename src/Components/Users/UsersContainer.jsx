@@ -2,37 +2,21 @@ import { connect } from 'react-redux';
 import {
     follow,
     setCurrentPage,
-    toggleIsFetching,
-    setTotalUsersCount,
-    setUsers,
     unfollow,
     toggleFollowingProgress,
+    getUsers,
 } from '../../redux/usersReducer';
 import React from 'react';
-
 import Users from './Users';
 import Preloader from '../common/preloader/Preloader';
-import { usersApi } from '../../api/api';
 
 class UsersAPIComponent extends React.Component {
     componentDidMount() {
-        this.props.toggleIsFetching(true);
-        usersApi
-            .getUsers(this.props.currentPage, this.props.pageSize)
-            .then((res) => {
-                this.props.toggleIsFetching(false);
-                this.props.setUsers(res.items);
-                this.props.setTotalUsersCount(res.totalCount);
-            });
+        this.props.getUsers(this.props.currentPage, this.props.pageSize);
     }
 
     onPageChange = (pageNum) => {
-        this.props.toggleIsFetching(true);
-        this.props.setCurrentPage(pageNum);
-        usersApi.getUsers(pageNum, this.props.pageSize).then((res) => {
-            this.props.toggleIsFetching(false);
-            this.props.setUsers(res.items);
-        });
+        this.props.getUsers(pageNum, this.props.pageSize);
     };
     render() {
         return (
@@ -48,9 +32,6 @@ class UsersAPIComponent extends React.Component {
                         users={this.props.users}
                         unfollow={this.props.unfollow}
                         follow={this.props.follow}
-                        toggleFollowingProgress={
-                            this.props.toggleFollowingProgress
-                        }
                         followingInProgress={this.props.followingInProgress}
                     />
                 )}
@@ -95,9 +76,7 @@ const mapStateToProps = (state) => {
 export default connect(mapStateToProps, {
     follow,
     unfollow,
-    setUsers,
     setCurrentPage,
-    setTotalUsersCount,
-    toggleIsFetching,
     toggleFollowingProgress,
+    getUsers,
 })(UsersAPIComponent);
