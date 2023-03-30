@@ -9,6 +9,8 @@ import {
 import React from 'react';
 import Users from './Users';
 import Preloader from '../common/preloader/Preloader';
+import { withAuthRedirect } from './../../hoc/WithAuthRedirect';
+import { compose } from 'redux';
 
 class UsersAPIComponent extends React.Component {
     componentDidMount() {
@@ -50,33 +52,14 @@ const mapStateToProps = (state) => {
         followingInProgress: state.usersPage.followingInProgress,
     };
 };
-// const mapDispatchToProps = (dispatch) => {
-//     return {
-//         follow: (userId) => {
-//             dispatch(followAC(userId));
-//         },
-//         unfollow: (userId) => {
-//             dispatch(unfollowAC(userId));
-//         },
-//         setUser: (users) => {
-//             dispatch(setUsersAC(users));
-//         },
-//         setCurrentPage: (currentPage) => {
-//             dispatch(setCurrentPageAC(currentPage));
-//         },
-//         setTotalUsersCount: (totalCount) => {
-//             dispatch(setTotalUsersCountAC(totalCount));
-//         },
-//         toggleIsFetching: (isFetching) => {
-//             dispatch(setIsFetchingAC(isFetching));
-//         },
-//     };
-// };
 
-export default connect(mapStateToProps, {
-    follow,
-    unfollow,
-    setCurrentPage,
-    toggleFollowingProgress,
-    getUsers,
-})(UsersAPIComponent);
+export default compose(
+    connect(mapStateToProps, {
+        follow,
+        unfollow,
+        setCurrentPage,
+        toggleFollowingProgress,
+        getUsers,
+    }),
+    withAuthRedirect
+)(UsersAPIComponent);

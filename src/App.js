@@ -8,6 +8,7 @@ import UsersContainer from './Components/Users/UsersContainer';
 import MusicContainer from './Components/Music/MusicContainer';
 import ProfileContainer from './Components/Profile/ProfileContainer';
 import HeaderContainer from './Components/Header/HeaderContainer';
+import Login from './Components/Login/Login';
 
 function App() {
     return (
@@ -30,6 +31,7 @@ function App() {
                         />
                         <Route path='/users/*' element={<UsersContainer />} />
                         <Route path='news' element={<News />} />
+                        <Route path='login' element={<Login />} />
                         <Route path='music' element={<MusicContainer />} />
                         <Route path='setting' element={<Setting />} />
                     </Routes>
