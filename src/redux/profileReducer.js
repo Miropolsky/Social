@@ -1,21 +1,21 @@
 import { profileApi } from '../api/api';
-
 const ADD_POST = 'ADD-POST';
-const UPDATE_NEW_POST_TEXT = 'UPDATE-NEW-POST-TEXT';
 const SET_USER_PROFILE = 'SET_USER_PROFILE';
+const SET_STATUS = 'SET_STATUS';
 
 const initialState = {
-    newPostText: '',
     posts: [
         { id: 1, message: 'Привет! Как дела?', likesCount: 0 },
         { id: 2, message: 'Это мой первый пост', likesCount: 23 },
     ],
     profile: null,
+    status: '',
 };
 
-const addPostActionCreator = () => {
+const addPostActionCreator = (textPost) => {
     return {
         type: ADD_POST,
+        textPost,
     };
 };
 const setUserProfileSuccess = (profile) => {
@@ -24,11 +24,10 @@ const setUserProfileSuccess = (profile) => {
         profile,
     };
 };
-
-const updateNewPostTextCreator = (text) => {
+const setStatus = (status) => {
     return {
-        type: UPDATE_NEW_POST_TEXT,
-        newText: text,
+        type: SET_STATUS,
+        status,
     };
 };
 
@@ -41,18 +40,17 @@ const profileReducer = (state = initialState, action) => {
                     ...state.posts,
                     {
                         id: 5,
-                        message: state.newPostText,
+                        message: action.textPost,
                         likesCount: 0,
                     },
                 ],
-                newPostText: '',
             };
-        }
-        case UPDATE_NEW_POST_TEXT: {
-            return { ...state, newPostText: action.newText };
         }
         case SET_USER_PROFILE: {
             return { ...state, profile: action.profile };
+        }
+        case SET_STATUS: {
+            return { ...state, status: action.status };
         }
 
         default:
@@ -67,10 +65,27 @@ const setUserProfile = (userId) => {
         });
     };
 };
+const getStatus = (status) => {
+    return (dispatch) => {
+        profileApi.getStatus(status).then((res) => {
+            dispatch(setStatus(res.data));
+        });
+    };
+};
+const updateStatus = (status) => {
+    return (dispatch) => {
+        profileApi.updateStatus(status).then((res) => {
+            if (res.data.resultCode === 0) {
+                dispatch(updateStatus(res));
+            }
+        });
+    };
+};
 
 export {
     profileReducer,
     addPostActionCreator,
-    updateNewPostTextCreator,
     setUserProfile,
+    getStatus,
+    updateStatus,
 };

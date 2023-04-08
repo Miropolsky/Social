@@ -1,4 +1,4 @@
-import { headerApi } from '../api/api';
+import { authApi } from '../api/api';
 
 const SET_USER_DATA = 'SET_USER_DATA';
 
@@ -10,31 +10,53 @@ const initialState = {
     isAuth: false,
 };
 
-const setAuthUserDataSuccess = (id, email, login) => {
+const setAuthUserDataSuccess = (id, email, login, isAuth) => {
     return {
         type: SET_USER_DATA,
-        data: { id, email, login },
+        payload: { id, email, login, isAuth },
     };
 };
 
 const authReducer = (state = initialState, action) => {
     switch (action.type) {
         case SET_USER_DATA:
-            return { ...state, ...action.data, isAuth: true };
+            return { ...state, ...action.payload };
         default:
             return state;
     }
 };
 
-const setAuthUserData = () => {
+const getAuthUserData = () => {
     return (dispatch) => {
-        headerApi.getUser().then((res) => {
+        authApi.getUser().then((res) => {
             if (res.resultCode === 0) {
                 let { login, id, email } = res.data;
-                dispatch(setAuthUserDataSuccess(id, email, login));
+                dispatch(setAuthUserDataSuccess(id, email, login, true));
             }
         });
     };
 };
 
-export { authReducer, setAuthUserData };
+const login = (email, password, rememberMe, setStatus) => {
+    return (dispatch) => {
+        authApi.login(email, password, rememberMe).then((res) => {
+            if (res.data.resultCode === 0) {
+                dispatch(getAuthUserData());
+            } else {
+                setStatus({ error: res.data.messages });
+            }
+        });
+    };
+};
+
+const logout = () => {
+    return (dispatch) => {
+        authApi.logout().then((res) => {
+            if (res.data.resultCode === 0) {
+                dispatch(setAuthUserDataSuccess(null, null, null, false));
+            }
+        });
+    };
+};
+
+export { authReducer, getAuthUserData, login, logout };

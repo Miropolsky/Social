@@ -6,7 +6,10 @@ export default function Header(props) {
         <div className={styles.container}>
             <div className={styles.loginBlock}>
                 {props.isAuth ? (
-                    props.login
+                    <div>
+                        {props.login} -{' '}
+                        <button onClick={props.logout}>Logout</button>
+                    </div>
                 ) : (
                     <NavLink to='/login'>Login</NavLink>
                 )}

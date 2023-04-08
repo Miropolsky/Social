@@ -22,16 +22,32 @@ const usersApi = {
     },
 };
 
-const headerApi = {
+const profileApi = {
+    async getUser(userId) {
+        return await instance.get(`profile/${userId}`).then((res) => res.data);
+    },
+    async getStatus(userId) {
+        return await instance.get(`profile/status/${userId}`);
+    },
+    async updateStatus(status) {
+        return await instance.put(`profile/status`, { status: status });
+    },
+};
+
+const authApi = {
+    async login(email, password, rememberMe = false) {
+        return await instance.post(`auth/login`, {
+            email,
+            password,
+            rememberMe,
+        });
+    },
+    async logout() {
+        return await instance.delete(`auth/login`);
+    },
     async getUser() {
         return await instance.get('auth/me').then((res) => res.data);
     },
 };
 
-const profileApi = {
-    async getUser(userId) {
-        return await instance.get(`profile/${userId}`).then((res) => res.data);
-    },
-};
-
-export { usersApi, headerApi, profileApi };
+export { usersApi, profileApi, authApi };

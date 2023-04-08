@@ -20,12 +20,15 @@ export function ProfileInfo(props) {
                     alt='img'
                 />
             </div>
-            {props.profile.lookingForAJob ? (
-                <div className={styles.descriptionBlock}>
-                    <ProfileStatus status='heelllo' />
-                    {/* {props.profile.lookingForAJobDescription} */}
-                </div>
-            ) : null}
+
+            <div className={styles.descriptionBlock}>
+                <ProfileStatus
+                    status={props.status}
+                    updateStatus={props.updateStatus}
+                />
+                {/* {props.profile.lookingForAJobDescription} */}
+            </div>
+
             <div className={styles.fullName}>{props.profile.fullName}</div>
         </div>
     );

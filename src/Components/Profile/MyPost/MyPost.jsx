@@ -1,28 +1,16 @@
 import Post from './Post/Post';
 import styles from './MyPost.module.scss';
-import React, { useRef } from 'react';
+import React from 'react';
+import { Field, Form, Formik } from 'formik';
 export function MyPost(props) {
-    let newPost = useRef();
-    const updateText = () => {
-        props.updateNewPostText(newPost.current.value);
-    };
-    const addPost = () => {
-        props.addPost();
+    const addPost = (values) => {
+        props.addPost(values.textPost);
     };
     return (
         <div className={styles.postsBlock}>
             <h3>MyPosts</h3>
             <div>
-                <div>
-                    <textarea
-                        onChange={updateText}
-                        ref={newPost}
-                        value={props.newPostText}
-                    ></textarea>
-                </div>
-                <div>
-                    <button onClick={addPost}>Add post</button>
-                </div>
+                <AddNewPost onSubmit={addPost} />
             </div>
             <div className={styles.posts}>
                 {props.postsData.map((post) => {
@@ -38,3 +26,19 @@ export function MyPost(props) {
         </div>
     );
 }
+
+const AddNewPost = (props) => {
+    return (
+        <Formik
+            initialValues={{ textPost: '' }}
+            onSubmit={(values) => props.onSubmit(values)}
+        >
+            <Form>
+                <div>
+                    <Field as='textarea' name='textPost' />
+                </div>
+                <button type='submit'>Add post</button>
+            </Form>
+        </Formik>
+    );
+};
