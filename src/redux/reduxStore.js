@@ -10,6 +10,7 @@ import { usersReducer } from './usersReducer';
 import musicReducer from './musicReducer';
 import { authReducer } from './authReducer';
 import thunkMiddleware from 'redux-thunk';
+import { appReducer } from './appReducer';
 
 let reducers = combineReducers({
     profilePage: profileReducer,
@@ -18,6 +19,7 @@ let reducers = combineReducers({
     usersPage: usersReducer,
     musicPage: musicReducer,
     auth: authReducer,
+    app: appReducer,
 });
 let store = createStore(reducers, applyMiddleware(thunkMiddleware));
 

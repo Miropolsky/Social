@@ -28,7 +28,7 @@ const authReducer = (state = initialState, action) => {
 
 const getAuthUserData = () => {
     return (dispatch) => {
-        authApi.getUser().then((res) => {
+        return authApi.getUser().then((res) => {
             if (res.resultCode === 0) {
                 let { login, id, email } = res.data;
                 dispatch(setAuthUserDataSuccess(id, email, login, true));

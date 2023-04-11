@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { useParams } from 'react-router-dom';
+import { Navigate, useParams } from 'react-router-dom';
 import {
     setUserProfile,
     getStatus,
@@ -14,19 +14,21 @@ function withRouter(Children) {
     return (props) => {
         const match = { params: useParams() };
         let userId = match.params.userId;
-        if (!userId) {
-            userId = 28221;
-            console.log(props.authorizedUserId);
+        if (!props.authorizedUserId && !userId) {
+            return <Navigate to='/login' />;
         }
-
         return <Children {...props} userId={userId} />;
     };
 }
 
 class ProfileContainer extends React.Component {
     componentDidMount() {
-        this.props.setUserProfile(this.props.userId);
-        this.props.getStatus(this.props.userId);
+        let userId = this.props.userId;
+        if (!this.props.userId) {
+            userId = this.props.authorizedUserId;
+        }
+        this.props.setUserProfile(userId);
+        this.props.getStatus(userId);
     }
     render() {
         return (
