@@ -18,6 +18,11 @@
     "reselect": "^4.1.7",
     "web-vitals": "^2.1.4"
   },
+  "jest": {
+    "transformIgnorePatterns": [
+      "node_modules/(?!(react-leaflet|@react-leaflet|d3-*|axios))"
+    ]
+  },
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",

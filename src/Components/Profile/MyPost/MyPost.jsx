@@ -2,7 +2,7 @@ import Post from './Post/Post';
 import styles from './MyPost.module.scss';
 import React from 'react';
 import { Field, Form, Formik } from 'formik';
-export function MyPost(props) {
+export const MyPost = React.memo((props) => {
     const addPost = (values) => {
         props.addPost(values.textPost);
     };
@@ -25,7 +25,7 @@ export function MyPost(props) {
             </div>
         </div>
     );
-}
+});
 
 const AddNewPost = (props) => {
     return (
