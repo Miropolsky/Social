@@ -11,7 +11,7 @@ export function ProfileInfo(props) {
             <div className={styles.img}>
                 <img
                     src={
-                        props.profile.photos.large
+                        props.profile.photos?.large
                             ? props.profile.photos.large
                             : 'https://answit.com/wp-content/uploads/2017/01/full-hd.jpg'
                     }
@@ -23,10 +23,11 @@ export function ProfileInfo(props) {
 
             <div className={styles.descriptionBlock}>
                 <ProfileStatus
+                    userId={props.profile.userId}
                     status={props.status}
                     updateStatus={props.updateStatus}
+                    authorizedUserId={props.authorizedUserId}
                 />
-                {/* {props.profile.lookingForAJobDescription} */}
             </div>
 
             <div className={styles.fullName}>{props.profile.fullName}</div>

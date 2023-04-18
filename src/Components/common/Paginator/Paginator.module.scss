@@ -1,0 +1,12 @@
+.container{
+    .pages{
+        margin-top: 20px;
+        .selectedPage{
+            font-weight: bold;
+        }
+        span{
+            margin-left: 3px;
+            cursor: pointer;
+        }
+    }
+}

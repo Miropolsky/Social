@@ -9,44 +9,44 @@ const instance = axios.create({
 });
 
 const usersApi = {
-    async getUsers(currentPage = 1, pageSize = 10) {
-        return await instance
+    getUsers(currentPage = 1, pageSize = 10) {
+        return instance
             .get(`users?page=${currentPage}&count=${pageSize}`)
             .then((res) => res.data);
     },
-    async follow(id) {
-        return await instance.post(`follow/${id}`).then((res) => res.data);
+    follow(id) {
+        return instance.post(`follow/${id}`).then((res) => res.data);
     },
-    async unfollow(id) {
-        return await instance.delete(`follow/${id}`).then((res) => res.data);
+    unfollow(id) {
+        return instance.delete(`follow/${id}`).then((res) => res.data);
     },
 };
 
 const profileApi = {
-    async getUser(userId) {
-        return await instance.get(`profile/${userId}`).then((res) => res.data);
+    getUser(userId) {
+        return instance.get(`profile/${userId}`).then((res) => res.data);
     },
-    async getStatus(userId) {
-        return await instance.get(`profile/status/${userId}`);
+    getStatus(userId) {
+        return instance.get(`profile/status/${userId}`);
     },
-    async updateStatus(status) {
-        return await instance.put(`profile/status`, { status: status });
+    updateStatus(status) {
+        return instance.put(`profile/status`, { status: status });
     },
 };
 
 const authApi = {
-    async login(email, password, rememberMe = false) {
-        return await instance.post(`auth/login`, {
+    login(email, password, rememberMe = false) {
+        return instance.post(`auth/login`, {
             email,
             password,
             rememberMe,
         });
     },
-    async logout() {
-        return await instance.delete(`auth/login`);
+    logout() {
+        return instance.delete(`auth/login`);
     },
-    async getUser() {
-        return await instance.get('auth/me').then((res) => res.data);
+    getUser() {
+        return instance.get('auth/me').then((res) => res.data);
     },
 };
 

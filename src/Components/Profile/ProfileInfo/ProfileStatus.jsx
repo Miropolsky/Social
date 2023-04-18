@@ -10,7 +10,7 @@ export default class ProfileStatus extends React.Component {
     };
     deactivedEditMode = () => {
         this.setState({ editMode: false });
-        this.props.updateStatus(this.state.status);
+        this.props.updateStatus(this.state.status, this.props.authorizedUserId);
     };
     onStatusChange = (e) => {
         this.setState({
@@ -23,6 +23,16 @@ export default class ProfileStatus extends React.Component {
         }
     }
     render() {
+        if (
+            this.props.userId &&
+            this.props.userId !== this.props.authorizedUserId
+        ) {
+            return (
+                <div>
+                    <span>{this.props.status || '-----'}</span>
+                </div>
+            );
+        }
         return (
             <div>
                 {!this.state.editMode && (

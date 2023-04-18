@@ -72,26 +72,23 @@ const profileReducer = (state = initialState, action) => {
 };
 
 const setUserProfile = (userId) => {
-    return (dispatch) => {
-        profileApi.getUser(userId).then((res) => {
-            dispatch(setUserProfileSuccess(res));
-        });
+    return async (dispatch) => {
+        const res = await profileApi.getUser(userId);
+        dispatch(setUserProfileSuccess(res));
     };
 };
-const getStatus = (status) => {
-    return (dispatch) => {
-        profileApi.getStatus(status).then((res) => {
-            dispatch(setStatus(res.data));
-        });
+const getStatus = (userId) => {
+    return async (dispatch) => {
+        const res = await profileApi.getStatus(userId);
+        dispatch(setStatus(res.data));
     };
 };
-const updateStatus = (status) => {
-    return (dispatch) => {
-        profileApi.updateStatus(status).then((res) => {
-            if (res.data.resultCode === 0) {
-                dispatch(updateStatus(res));
-            }
-        });
+const updateStatus = (status, authorizedUserId) => {
+    return async (dispatch) => {
+        const res = await profileApi.updateStatus(status);
+        if (res.data.resultCode === 0) {
+            dispatch(getStatus(authorizedUserId));
+        }
     };
 };
 

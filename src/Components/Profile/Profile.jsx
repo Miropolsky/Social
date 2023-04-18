@@ -7,6 +7,7 @@ export default function Profile(props) {
     return (
         <div>
             <ProfileInfo
+                authorizedUserId={props.authorizedUserId}
                 profile={props.profile}
                 status={props.status}
                 updateStatus={props.updateStatus}
