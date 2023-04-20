@@ -1,4 +1,6 @@
 .container{
+    display: flex;
+    column-gap: 10px;
     .pages{
         margin-top: 20px;
         .selectedPage{

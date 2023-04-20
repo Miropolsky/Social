@@ -1,33 +1,53 @@
 import styles from './Paginator.module.scss';
-import React from 'react';
+import React, { useState } from 'react';
 
 export default function Paginator(props) {
+    let portionSize = 10;
+    const [portionNum, setPortionNum] = useState(
+        props.currentPage % portionSize === 0
+            ? props.currentPage / portionSize
+            : Math.floor(props.currentPage / portionSize + 1)
+    );
     let pagesCount = Math.ceil(props.totalUsersCount / props.pageSize);
     let pages = [];
     for (let i = 1; i <= pagesCount; i++) {
         pages.push(i);
     }
+    let rightPage = portionSize * portionNum;
+    let leftPage = portionSize * (portionNum - 1) + 1;
     return (
         <div className={styles.container}>
+            {portionNum !== 1 && (
+                <button onClick={() => setPortionNum(portionNum - 1)}>
+                    Prev
+                </button>
+            )}
             <div className={styles.pages}>
-                {pages.map((el) => {
-                    return (
-                        <span
-                            key={el}
-                            onClick={() => {
-                                props.onPageChange(el);
-                            }}
-                            className={
-                                props.currentPage === el
-                                    ? styles.selectedPage
-                                    : null
-                            }
-                        >
-                            {el}
-                        </span>
-                    );
-                })}
+                {pages
+                    .filter((el) => el >= leftPage && el <= rightPage)
+                    .map((el) => {
+                        return (
+                            <span
+                                key={el}
+                                onClick={() => {
+                                    props.onPageChange(el);
+                                }}
+                                className={
+                                    props.currentPage === el
+                                        ? styles.selectedPage
+                                        : null
+                                }
+                            >
+                                {el}
+                            </span>
+                        );
+                    })}
             </div>
+            {portionNum !== pagesCount && (
+                <button onClick={() => setPortionNum(portionNum + 1)}>
+                    Next
+                </button>
+            )}
         </div>
     );
 }
