@@ -31,7 +31,7 @@ class App extends React.Component {
             return <Preloader />;
         }
         return (
-            <BrowserRouter>
+            <BrowserRouter basename='/'>
                 <div className='App'>
                     <HeaderContainer className='header' />
                     <div className='content'>
@@ -45,6 +45,10 @@ class App extends React.Component {
                             }
                         >
                             <Routes>
+                                <Route
+                                    path='*'
+                                    element={<ProfileContainer />}
+                                />
                                 <Route
                                     path='profile'
                                     element={<ProfileContainer />}

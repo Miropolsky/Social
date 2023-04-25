@@ -3,6 +3,8 @@ const ADD_POST = 'ADD-POST';
 const SET_USER_PROFILE = 'SET_USER_PROFILE';
 const SET_STATUS = 'SET_STATUS';
 const DELETE_POST = 'DELETE_POST';
+const SAVE_PHOTO = 'SAVE_PHOTO';
+const SET_ERROR = 'SET_ERROR';
 
 const initialState = {
     posts: [
@@ -11,6 +13,7 @@ const initialState = {
     ],
     profile: null,
     status: '',
+    errorSaveProfile: null,
 };
 
 const addPostActionCreator = (textPost) => {
@@ -29,6 +32,18 @@ const setStatus = (status) => {
     return {
         type: SET_STATUS,
         status,
+    };
+};
+const setError = (error) => {
+    return {
+        type: SET_ERROR,
+        error,
+    };
+};
+const savePhotoSuccess = (photo) => {
+    return {
+        type: SAVE_PHOTO,
+        photo,
     };
 };
 const deletePost = (postId) => {
@@ -58,6 +73,18 @@ const profileReducer = (state = initialState, action) => {
         }
         case SET_STATUS: {
             return { ...state, status: action.status };
+        }
+        case SAVE_PHOTO: {
+            return {
+                ...state,
+                profile: { ...state.profile, photos: action.photo },
+            };
+        }
+        case SET_ERROR: {
+            return {
+                ...state,
+                errorSaveProfile: action.error,
+            };
         }
         case DELETE_POST: {
             return {
@@ -91,6 +118,26 @@ const updateStatus = (status, authorizedUserId) => {
         }
     };
 };
+const savePhoto = (photo) => {
+    return async (dispatch) => {
+        const res = await profileApi.savePhoto(photo);
+        if (res.data.resultCode === 0) {
+            dispatch(savePhotoSuccess(res.data.data.photos));
+        }
+    };
+};
+const saveProfile = (profile) => {
+    return async (dispatch) => {
+        const res = await profileApi.saveProfile(profile);
+        if (res.data.resultCode === 0) {
+            dispatch(setUserProfile(profile.userId));
+            dispatch(setError(null));
+        } else {
+            dispatch(setError(res.data.messages[0]));
+        }
+        return res;
+    };
+};
 
 export {
     profileReducer,
@@ -99,4 +146,6 @@ export {
     getStatus,
     updateStatus,
     deletePost,
+    savePhoto,
+    saveProfile,
 };

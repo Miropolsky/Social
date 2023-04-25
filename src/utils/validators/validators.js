@@ -12,5 +12,8 @@ export const validate = (values) => {
     } else if (values.password.length < 4) {
         error.password = 'Password min length 4';
     }
+    // if (!values.captcha) {
+    //     error.captcha = 'Required';
+    // }
     return error;
 };

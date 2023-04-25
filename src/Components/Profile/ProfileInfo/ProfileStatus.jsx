@@ -38,6 +38,7 @@ export default class ProfileStatus extends React.Component {
                 {!this.state.editMode && (
                     <div>
                         <span onDoubleClick={this.activedEditMode}>
+                            <b>Статус: </b>
                             {this.props.status || '-----'}
                         </span>
                     </div>

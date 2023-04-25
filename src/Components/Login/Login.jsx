@@ -2,7 +2,7 @@ import { Field, Form, Formik } from 'formik';
 import React from 'react';
 import { validate } from '../../utils/validators/validators';
 import { connect } from 'react-redux';
-import { login, logout } from '../../redux/authReducer';
+import { login, logout, getCaptchaUrl } from '../../redux/authReducer';
 import { Navigate } from 'react-router-dom';
 
 function Login(props) {
@@ -11,6 +11,7 @@ function Login(props) {
             formData.email,
             formData.password,
             formData.rememberMe,
+            formData.captcha,
             actions.setStatus
         );
         actions.resetForm();
@@ -21,7 +22,11 @@ function Login(props) {
     return (
         <div>
             <h1>Login</h1>
-            <LoginForm onSubmit={onSubmit} />
+            <LoginForm
+                onSubmit={onSubmit}
+                captchaUrl={props.captchaUrl}
+                getCaptchaUrl={props.getCaptchaUrl}
+            />
         </div>
     );
 }
@@ -29,7 +34,12 @@ function Login(props) {
 const LoginForm = (props) => {
     return (
         <Formik
-            initialValues={{ email: '', password: '', rememberMe: false }}
+            initialValues={{
+                email: '',
+                password: '',
+                rememberMe: false,
+                captcha: '',
+            }}
             onSubmit={(values, actions) => props.onSubmit(values, actions)}
             validate={validate}
         >
@@ -59,6 +69,24 @@ const LoginForm = (props) => {
                         />
                         <label htmlFor='rememberMe'>remember Me </label>
                     </div>
+                    {props.captchaUrl && (
+                        <div>
+                            <div>
+                                <img
+                                    src={props.captchaUrl}
+                                    alt='captcha'
+                                    width={150}
+                                />
+                            </div>
+                            <Field
+                                required
+                                id='captcha'
+                                name='captcha'
+                                type='text'
+                            />
+                            {errors.captcha && <div>{errors.captcha}</div>}
+                        </div>
+                    )}
                     {status ? (
                         status.error ? (
                             <div>{status.error}</div>
@@ -77,5 +105,8 @@ const LoginForm = (props) => {
 };
 const mapStateToProps = (state) => ({
     isAuth: state.auth.isAuth,
+    captchaUrl: state.auth.captchaUrl,
 });
-export default connect(mapStateToProps, { login, logout })(Login);
+export default connect(mapStateToProps, { login, logout, getCaptchaUrl })(
+    Login
+);

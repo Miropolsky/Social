@@ -1,11 +1,12 @@
 import styles from './Users.module.scss';
+import cn from 'classnames/bind';
 import defaultAvatar from '../../assets/img/defaultAvatar.jpg';
 import React from 'react';
 import { NavLink } from 'react-router-dom';
 
 export default function User({ u, followingInProgress, follow, unfollow }) {
     return (
-        <div className={styles.user}>
+        <div className={cn(styles.user)}>
             <span>
                 <div>
                     <NavLink to={`/profile/${u.id}`}>
@@ -14,7 +15,7 @@ export default function User({ u, followingInProgress, follow, unfollow }) {
                                 u.photos.small ? u.photos.small : defaultAvatar
                             }
                             alt={'Аватарка'}
-                            className={styles.userPhoto}
+                            className={cn(styles.userPhoto)}
                         />
                     </NavLink>
                 </div>
