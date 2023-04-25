@@ -1,6 +1,25 @@
 const ADD_MESSAGE = 'ADD-MESSAGE';
 
-const initialState = {
+type DialogType = {
+    name: string,
+    id: number,
+    imgUrl: string
+}
+type MessageType = {
+    message: string,
+    id: number,
+}
+
+type DialogInitialStateType = {
+    dialogs: Array<DialogType>,
+    messages: Array<MessageType>
+}
+type AddMessageActionCreatorType = (text:string) => {
+    type: typeof ADD_MESSAGE,
+    text: string,
+}
+
+const initialState: DialogInitialStateType = {
     dialogs: [
         {
             name: 'Andrey',
@@ -36,7 +55,8 @@ const initialState = {
     ],
 };
 
-const addMessageActionCreator = (text) => {
+
+const addMessageActionCreator: AddMessageActionCreatorType = (text: string) => {
     return {
         type: ADD_MESSAGE,
         text,
@@ -61,4 +81,9 @@ const dialogReducer = (state = initialState, action) => {
             return state;
     }
 };
-export { dialogReducer, addMessageActionCreator };
+
+const addMessage = (text: string) => (dispatch) => {
+    dispatch(addMessageActionCreator(text));
+}
+
+export { dialogReducer, addMessageActionCreator, addMessage };

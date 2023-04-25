@@ -1,4 +1,14 @@
-const initialState = {
+type MusicType = {
+    id: number,
+    track: string,
+    author: string
+}
+
+type MusicInitialStateType = {
+    musics: Array<MusicType>
+}
+
+const initialState: MusicInitialStateType = {
     musics: [
         { id: 0, track: 'Темная ночь', author: 'Каспийский груз' },
         { id: 1, track: 'Дальнобойщики', author: 'Красный огонек' },
@@ -6,11 +16,8 @@ const initialState = {
     ],
 };
 
-const musicReducer = (state = initialState, action) => {
-    switch (action.type) {
-        default:
-            return state;
-    }
+const musicReducer = (state = initialState) => {
+    return state;
 };
 
 export default musicReducer;
