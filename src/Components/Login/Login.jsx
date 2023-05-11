@@ -2,7 +2,7 @@ import { Field, Form, Formik } from 'formik';
 import React from 'react';
 import { validate } from '../../utils/validators/validators';
 import { connect } from 'react-redux';
-import { login, logout, getCaptchaUrl } from '../../redux/authReducer';
+import { login, logout, getCaptchaUrl } from '../../redux/authReducer.ts';
 import { Navigate } from 'react-router-dom';
 
 function Login(props) {

@@ -11,7 +11,7 @@ import HeaderContainer from './Components/Header/HeaderContainer';
 import Login from './Components/Login/Login';
 import React, { Suspense } from 'react';
 import { connect } from 'react-redux';
-import { initializeApp } from './redux/appReducer';
+import { initializeApp } from './redux/appReducer.ts';
 import Preloader from './Components/common/preloader/Preloader';
 
 const DialogsContainer = React.lazy(() =>
@@ -64,7 +64,9 @@ class App extends React.Component {
                                 />
                                 <Route
                                     path='/users/*'
-                                    element={<UsersContainer />}
+                                    element={
+                                        <UsersContainer pageTitle='Самурай' />
+                                    }
                                 />
                                 <Route path='news' element={<News />} />
                                 <Route path='login' element={<Login />} />

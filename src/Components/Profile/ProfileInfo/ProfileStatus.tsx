@@ -1,6 +1,18 @@
 import React from 'react';
 
-export default class ProfileStatus extends React.Component {
+type PropsType = {
+    status: string
+    authorizedUserId: number
+    userId: number
+    updateStatus: (newStatus: string, userId: number) => void
+}
+
+type StateType = {
+    editMode: boolean
+    status: string
+}
+
+export default class ProfileStatus extends React.Component<PropsType, StateType> {
     state = {
         editMode: false,
         status: this.props.status,
@@ -12,12 +24,12 @@ export default class ProfileStatus extends React.Component {
         this.setState({ editMode: false });
         this.props.updateStatus(this.state.status, this.props.authorizedUserId);
     };
-    onStatusChange = (e) => {
+    onStatusChange = (e: React.FormEvent<HTMLInputElement>) => {
         this.setState({
             status: e.currentTarget.value,
         });
     };
-    componentDidUpdate(prevProps, prevState) {
+    componentDidUpdate(prevProps: PropsType, prevState: StateType) {
         if (prevProps.status !== this.props.status) {
             this.setState({ status: this.props.status });
         }

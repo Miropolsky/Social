@@ -1,7 +1,14 @@
 import styles from './Paginator.module.scss';
 import React, { useState } from 'react';
 
-export default function Paginator(props) {
+type PropsType = {
+    currentPage: number
+    totalUsersCount: number
+    pageSize: number
+    onPageChange: (el: number) => void
+}
+
+export default function Paginator(props: PropsType) {
     let portionSize = 10;
     const [portionNum, setPortionNum] = useState(
         props.currentPage % portionSize === 0
@@ -9,7 +16,7 @@ export default function Paginator(props) {
             : Math.floor(props.currentPage / portionSize + 1)
     );
     let pagesCount = Math.ceil(props.totalUsersCount / props.pageSize);
-    let pages = [];
+    let pages: Array<number> = [];
     for (let i = 1; i <= pagesCount; i++) {
         pages.push(i);
     }
@@ -35,7 +42,7 @@ export default function Paginator(props) {
                                 className={
                                     props.currentPage === el
                                         ? styles.selectedPage
-                                        : null
+                                        : ''
                                 }
                             >
                                 {el}

@@ -1,9 +1,7 @@
 import { connect } from 'react-redux';
 import {
     follow,
-    setCurrentPage,
     unfollow,
-    toggleFollowingProgress,
     getUsers,
 } from '../../redux/usersReducer';
 import React from 'react';
@@ -19,18 +17,42 @@ import {
     getPageSize,
     getTotalUsersCount,
 } from '../../redux/usersSelectors';
+import { UserType } from '../../types/types';
+import { AppStateType } from '../../redux/reduxStore';
 
-class UsersAPIComponent extends React.Component {
+type MapStatePropsType = {
+    currentPage: number
+    pageSize: number
+    totalUsersCount: number
+    isFetching: boolean
+    users: Array<UserType>
+    followingInProgress: Array<number>
+}
+type MapDispatchPropsType = {
+    unfollow: (userId: number) => void
+    follow: (userId: number) => void
+    getUsers: (currentPage: number, pageSize: number) => void
+}
+
+type OwnPropsType = {
+    pageTitle: string
+}
+
+
+
+type PropsType = MapStatePropsType & MapDispatchPropsType & OwnPropsType
+class UsersAPIComponent extends React.Component<PropsType> {
     componentDidMount() {
         this.props.getUsers(this.props.currentPage, this.props.pageSize);
     }
 
-    onPageChange = (pageNum) => {
+    onPageChange = (pageNum: number) => {
         this.props.getUsers(pageNum, this.props.pageSize);
     };
     render() {
         return (
             <div>
+                <h2>{this.props.pageTitle}</h2>
                 {this.props.isFetching ? (
                     <Preloader />
                 ) : (
@@ -61,7 +83,7 @@ class UsersAPIComponent extends React.Component {
 //     };
 // };
 
-const mapStateToProps = (state) => {
+const mapStateToProps = (state: AppStateType): MapStatePropsType => {
     return {
         users: getAllUsers(state),
         pageSize: getPageSize(state),
@@ -72,12 +94,10 @@ const mapStateToProps = (state) => {
     };
 };
 
-export default compose(
-    connect(mapStateToProps, {
+export default compose<React.Component>(
+    connect<MapStatePropsType, MapDispatchPropsType, OwnPropsType, AppStateType>(mapStateToProps, {
         follow,
         unfollow,
-        setCurrentPage,
-        toggleFollowingProgress,
         getUsers,
     })
     // withAuthRedirect

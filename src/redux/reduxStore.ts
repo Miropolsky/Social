@@ -5,10 +5,10 @@ import {
     compose,
 } from 'redux';
 import { profileReducer } from './profileReducer';
-import { dialogReducer } from './diaglogReducer.ts';
-import siteBarReducer from './siteBarReducer.ts';
+import { dialogReducer } from './diaglogReducer';
+import siteBarReducer from './siteBarReducer';
 import { usersReducer } from './usersReducer';
-import musicReducer from './musicReducer.ts';
+import musicReducer from './musicReducer';
 import { authReducer } from './authReducer';
 import thunkMiddleware from 'redux-thunk';
 import { appReducer } from './appReducer';
@@ -22,8 +22,11 @@ let reducers = combineReducers({
     auth: authReducer,
     app: appReducer,
 });
-// let store = createStore(reducers, applyMiddleware(thunkMiddleware));
 
+type RootReducerType = typeof reducers;
+export type AppStateType = ReturnType<RootReducerType>;
+// let store = createStore(reducers, applyMiddleware(thunkMiddleware));
+//@ts-ignore
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 const store = createStore(
     reducers,

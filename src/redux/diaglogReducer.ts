@@ -63,7 +63,7 @@ const addMessageActionCreator: AddMessageActionCreatorType = (text: string) => {
     };
 };
 
-const dialogReducer = (state = initialState, action) => {
+const dialogReducer = (state = initialState, action: any) => {
     switch (action.type) {
         case ADD_MESSAGE: {
             return {
@@ -82,7 +82,7 @@ const dialogReducer = (state = initialState, action) => {
     }
 };
 
-const addMessage = (text: string) => (dispatch) => {
+const addMessage = (text: string) => (dispatch: any) => {
     dispatch(addMessageActionCreator(text));
 }
 
