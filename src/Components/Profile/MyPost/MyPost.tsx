@@ -2,8 +2,14 @@ import Post from './Post/Post';
 import styles from './MyPost.module.scss';
 import React from 'react';
 import { Field, Form, Formik } from 'formik';
-export const MyPost = React.memo((props) => {
-    const addPost = (values) => {
+import { PostType } from '../../../types/types';
+
+type PropsMyPostType = {
+    postsData: Array<PostType>
+    addPost: (text: string) => void
+}
+export const MyPost = React.memo((props:PropsMyPostType) => {
+    const addPost = (values: ValuesFormType) => {
         props.addPost(values.textPost);
     };
     return (
@@ -27,7 +33,15 @@ export const MyPost = React.memo((props) => {
     );
 });
 
-const AddNewPost = (props) => {
+type ValuesFormType = {
+    textPost: string
+}
+
+type PropsAddNewPostType = {
+    onSubmit: (values: ValuesFormType) => void
+}
+
+const AddNewPost = (props: PropsAddNewPostType) => {
     return (
         <Formik
             initialValues={{ textPost: '' }}

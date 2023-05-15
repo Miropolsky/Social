@@ -1,17 +1,30 @@
+import { ProfileType } from '../../../types/types';
 import styles from './Profile.module.scss';
 import { Field, Form, Formik } from 'formik';
 
-export const ProfileDescribForm = (props) => {
-    const contacts = [];
+type PropsDescribType = {
+    profile: ProfileType | null
+    isOwner: boolean
+    error: string | null
+    toggleEditMode: () => void
+    handleSubmit: (profile: ProfileType | null) => void
+}
+export const ProfileDescribForm = (props: PropsDescribType) => {
+    if (!props.profile) {
+        return <>Профиль не найден</>
+    }
+    const contacts: Array<{name: string; value: string}> = [];
     for (let key in props.profile.contacts) {
         contacts.push({
             name: key,
+            //@ts-ignore
             value: props.profile.contacts[key],
         });
     }
-    const onSubmit = (formData, actions) => {
+    const onSubmit = (formData: ProfileType, actions?: any) => {
         if (formData.fullName) {
             let res = props.handleSubmit({ ...props.profile, ...formData });
+            //@ts-ignore
             res.then((res) => {
                 console.log(res.data.messages);
                 if (!res.data.messages.length) {
@@ -24,7 +37,8 @@ export const ProfileDescribForm = (props) => {
     return (
         <>
             <Formik
-                initialValues={{
+                //@ts-ignore
+                initialValues ={{
                     fullName: `${props.profile.fullName}`,
                     aboutMe: `${props.profile.aboutMe || ''}`,
                     lookingForAJob: props.profile.lookingForAJob === true,
@@ -42,7 +56,7 @@ export const ProfileDescribForm = (props) => {
                         mainLink: `${props.profile.contacts.mainLink || ''}`,
                     },
                 }}
-                onSubmit={(values) => onSubmit(values)}
+                onSubmit={(values: ProfileType) => onSubmit(values)}
             >
                 {({ errors, touched }) => (
                     <Form>
@@ -50,6 +64,7 @@ export const ProfileDescribForm = (props) => {
                             <button
                                 // disabled={isSubmitting}
                                 type='submit'
+                                //@ts-ignore
                                 onClick={onSubmit}
                             >
                                 Сохранить

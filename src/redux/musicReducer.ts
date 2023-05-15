@@ -4,7 +4,7 @@ type MusicType = {
     author: string
 }
 
-type MusicInitialStateType = {
+export type MusicInitialStateType = {
     musics: Array<MusicType>
 }
 

@@ -1,11 +1,14 @@
+import { ThunkAction } from "redux-thunk";
+import { AppStateType } from "./reduxStore";
+
 const ADD_MESSAGE = 'ADD-MESSAGE';
 
-type DialogType = {
+export type DialogType = {
     name: string,
     id: number,
     imgUrl: string
 }
-type MessageType = {
+export type MessageType = {
     message: string,
     id: number,
 }
@@ -14,7 +17,7 @@ type DialogInitialStateType = {
     dialogs: Array<DialogType>,
     messages: Array<MessageType>
 }
-type AddMessageActionCreatorType = (text:string) => {
+type AddMessageActionCreatorType = {
     type: typeof ADD_MESSAGE,
     text: string,
 }
@@ -56,14 +59,18 @@ const initialState: DialogInitialStateType = {
 };
 
 
-const addMessageActionCreator: AddMessageActionCreatorType = (text: string) => {
+
+
+const addMessageActionCreator = (text: string): AddMessageActionCreatorType => {
     return {
         type: ADD_MESSAGE,
         text,
     };
 };
 
-const dialogReducer = (state = initialState, action: any) => {
+type ActionsType = AddMessageActionCreatorType;
+
+const dialogReducer = (state = initialState, action: ActionsType): DialogInitialStateType => {
     switch (action.type) {
         case ADD_MESSAGE: {
             return {
@@ -82,7 +89,9 @@ const dialogReducer = (state = initialState, action: any) => {
     }
 };
 
-const addMessage = (text: string) => (dispatch: any) => {
+type ThunkType = ThunkAction<void, AppStateType, unknown,ActionsType>
+
+const addMessage = (text: string):ThunkType => (dispatch) => {
     dispatch(addMessageActionCreator(text));
 }
 

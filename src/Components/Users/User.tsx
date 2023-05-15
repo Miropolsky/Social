@@ -1,10 +1,18 @@
 import styles from './Users.module.scss';
-import cn from 'classnames/bind';
+import cn from 'classnames';
 import defaultAvatar from '../../assets/img/defaultAvatar.jpg';
 import React from 'react';
 import { NavLink } from 'react-router-dom';
+import { UserType } from '../../types/types';
 
-export default function User({ u, followingInProgress, follow, unfollow }) {
+type PropsType = {
+    u: UserType,
+    followingInProgress: Array<number>
+    follow: (userId: number) => void
+    unfollow: (userId: number) => void
+}
+
+export default function User({ u, followingInProgress, follow, unfollow }: PropsType) {
     return (
         <div className={cn(styles.user)}>
             <span>

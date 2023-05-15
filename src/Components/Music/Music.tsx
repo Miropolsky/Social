@@ -1,6 +1,9 @@
+import { MusicInitialStateType } from '../../redux/musicReducer';
 import styles from './Music.module.scss';
 
-export default function Music({ musics }) {
+type PropsType = MusicInitialStateType;
+
+export default function Music({ musics }: PropsType) {
     return (
         <div>
             <h2>Music</h2>

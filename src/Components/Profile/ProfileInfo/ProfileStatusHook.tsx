@@ -1,6 +1,11 @@
 import React, { useEffect, useState } from 'react';
 
-export default function ProfileStatusHook(props) {
+type PropsType = {
+    status: string
+    updateStatus: (newStatus: string, userId?: number) => void
+}
+
+export default function ProfileStatusHook(props: PropsType) {
     const [editMode, setEditMode] = useState(false);
     const [status, setStatus] = useState(props.status);
 
@@ -11,7 +16,7 @@ export default function ProfileStatusHook(props) {
         setEditMode(false);
         props.updateStatus(status);
     };
-    const onStatusChange = (e) => {
+    const onStatusChange = (e: React.FormEvent<HTMLInputElement>) => {
         setStatus(e.currentTarget.value);
     };
     useEffect(() => {

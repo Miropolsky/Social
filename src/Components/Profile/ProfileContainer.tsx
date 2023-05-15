@@ -11,9 +11,32 @@ import {
 import Profile from './Profile';
 // import { withAuthRedirect } from '../../hoc/WithAuthRedirect';
 import { compose } from 'redux';
+import { AppStateType } from '../../redux/reduxStore';
+import { ProfileType } from '../../types/types';
 
-function withRouter(Children) {
-    return (props) => {
+type MapStateToPropsType = {
+    profile: ProfileType | null
+    status: string
+    authorizedUserId: number | null
+    error: string | null
+}
+
+type MapDispatchPropsType = {
+    setUserProfile: (userId:number | null) => void
+    getStatus: (userId:number | null) => void
+    updateStatus: (status: string | null, authorizedUserId: number | null) => void,
+    savePhoto: (photo: File | null) => void,
+    saveProfile: (profile: ProfileType | null) => void
+}
+
+type OwnPropsType = {
+    userId: number | null
+}
+
+type PropsType = MapStateToPropsType & MapDispatchPropsType & OwnPropsType;
+
+function withRouter(Children: typeof React.Component ) {
+    return (props: PropsType) => {
         const match = { params: useParams() };
         let userId = match.params.userId;
         if (!props.authorizedUserId && !userId) {
@@ -23,7 +46,7 @@ function withRouter(Children) {
     };
 }
 
-class ProfileContainer extends React.Component {
+class ProfileContainer extends React.Component<PropsType> {
     refreshProfile() {
         let userId = this.props.userId;
         if (!this.props.userId) {
@@ -35,7 +58,7 @@ class ProfileContainer extends React.Component {
     componentDidMount() {
         this.refreshProfile();
     }
-    componentDidUpdate(prevProps) {
+    componentDidUpdate(prevProps: PropsType) {
         if (this.props.userId !== prevProps.userId) {
             this.refreshProfile();
         }
@@ -54,14 +77,14 @@ class ProfileContainer extends React.Component {
     }
 }
 
-let mapStateToProps = (state) => ({
+let mapStateToProps = (state: AppStateType): MapStateToPropsType => ({
     profile: state.profilePage.profile,
     status: state.profilePage.status,
     authorizedUserId: state.auth.id,
     error: state.profilePage.errorSaveProfile,
 });
 
-export default compose(
+export default compose<React.Component>(
     connect(mapStateToProps, {
         setUserProfile,
         getStatus,

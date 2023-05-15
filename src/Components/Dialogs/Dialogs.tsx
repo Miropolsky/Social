@@ -1,20 +1,16 @@
 import { DialogItem } from './DialogItem/DialogItem';
 import { Message } from './Message/Message';
 import styles from './Dialogs.module.scss';
-// import { useRef } from 'react';
 import { Field, Form, Formik } from 'formik';
+import { DialogType, MessageType } from '../../redux/diaglogReducer';
 
-export default function Dialogs(props) {
-    // const newMessage = useRef();
-    // const addMessage = () => {
-    //     props.addMessage();
-    // };
-
-    // const updateTextMessage = () => {
-    //     props.updateTextMessage(newMessage.current.value);
-    // };
-
-    const addNewMessage = (values) => {
+type PropsDialogsType = {
+    addMessage: (text: string ) => void,
+    dialogsData: Array<DialogType>
+    messagesData: Array<MessageType>
+}
+export default function Dialogs(props: PropsDialogsType) {
+    const addNewMessage = (values: ValuesFormType) => {
         props.addMessage(values.text);
     };
     return (
@@ -48,11 +44,19 @@ export default function Dialogs(props) {
     );
 }
 
-const AddMessageForm = (props) => {
+type ValuesFormType = {
+    text: string
+}
+
+type PropsAddMessageType = {
+    onSubmit: (value: ValuesFormType ) => void,
+}
+
+const AddMessageForm = (props: PropsAddMessageType  ) => {
     return (
         <Formik
             initialValues={{ text: '' }}
-            onSubmit={(values) => props.onSubmit(values)}
+            onSubmit={(values: ValuesFormType) => props.onSubmit(values)}
         >
             <Form>
                 <div>

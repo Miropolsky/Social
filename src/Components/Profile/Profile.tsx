@@ -2,8 +2,20 @@
 // import styles from './Profile.module.scss';
 import { ProfileInfo } from './ProfileInfo/ProfileInfo';
 import MyPostContainer from './MyPost/MyPostContainer';
+import { ProfileType } from '../../types/types';
 
-export default function Profile(props) {
+type PropsType = {
+    error: string | null
+    savePhoto: (photo: File | null) => void,
+    isOwner: boolean
+    authorizedUserId: number | null
+    profile: ProfileType | null
+    status: string
+    updateStatus: (status: string| null, authorizedUserId: number | null) => void,
+    saveProfile: (profile: ProfileType | null) => void
+}
+
+export default function Profile(props: PropsType) {
     return (
         <div>
             <ProfileInfo

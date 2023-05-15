@@ -52,7 +52,7 @@ class UsersAPIComponent extends React.Component<PropsType> {
     render() {
         return (
             <div>
-                <h2>{this.props.pageTitle}</h2>
+                {/* <h2>{this.props.pageTitle}</h2> */}
                 {this.props.isFetching ? (
                     <Preloader />
                 ) : (

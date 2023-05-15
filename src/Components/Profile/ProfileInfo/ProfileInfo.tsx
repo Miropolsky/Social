@@ -3,14 +3,28 @@ import Preloader from '../../common/preloader/Preloader';
 import styles from './Profile.module.scss';
 import ProfileStatus from './ProfileStatus';
 import { ProfileDescribForm } from './ProfileDescribForm';
+import { ProfileType } from '../../../types/types';
 
-export function ProfileInfo(props) {
+type PropsType = {
+    error: string | null
+    savePhoto: (photo: File) => void,
+    isOwner: boolean
+    authorizedUserId: number | null
+    profile: ProfileType | null
+    status: string
+    updateStatus: (status: string| null, authorizedUserId: number | null) => void,
+    handleSubmit: (profile: ProfileType | null) => void
+}
+
+export function ProfileInfo(props: PropsType) {
     const [editMode, setEditMode] = useState(false);
     if (!props.profile) {
         return <Preloader />;
     }
-    const onMainPhotoSelected = (e) => {
-        props.savePhoto(e.target.files[0]);
+    const onMainPhotoSelected = (e: React.ChangeEvent<HTMLInputElement>) => {
+        if (e.target.files) {
+            props.savePhoto(e.target.files[0]);
+        }
     };
 
     const toggleEditMode = () => {
@@ -51,8 +65,8 @@ export function ProfileInfo(props) {
                     />
                 ) : (
                     <ProfileDescrib
-                        {...props}
                         toggleEditMode={toggleEditMode}
+                        {...props}
                     />
                 )}
             </div>
@@ -60,14 +74,27 @@ export function ProfileInfo(props) {
     );
 }
 
-const ProfileDescrib = (props) => {
+type PropsDescribType = {
+    profile: ProfileType | null
+    isOwner: boolean
+    toggleEditMode: () => void
+    handleSubmit: (profile: ProfileType | null) => void
+}
+
+const ProfileDescrib = (props: PropsDescribType) => {
     const contacts = [];
-    for (let key in props.profile.contacts) {
-        contacts.push({
-            name: key,
-            value: props.profile.contacts[key],
-        });
+    if (!props.profile) {
+        return <>Не найден профиль</>
     }
+        for (let key in props.profile.contacts) {
+            contacts.push({
+                name: key,
+                //@ts-ignore
+                value: props.profile.contacts[key],
+            });
+        }
+    
+    
     return (
         <>
             {props.isOwner && (
@@ -79,7 +106,7 @@ const ProfileDescrib = (props) => {
             )}
             <div className={styles.fullName}>
                 <b>Имя: </b>
-                {props.profile.fullName}
+                {props.profile && props.profile.fullName}
             </div>
             <div>
                 <b>Обо мне: </b>

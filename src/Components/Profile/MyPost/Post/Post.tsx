@@ -1,6 +1,11 @@
 import styles from './Post.module.scss';
 
-export default function Post({ message, likesCount }) {
+type PropsType = {
+    message: string,
+    likesCount: number
+}
+
+export default function Post({ message, likesCount }: PropsType) {
     return (
         <div className={styles.container}>
             <div className={styles.blockAvatar}>

@@ -1,5 +1,16 @@
-export const validate = (values) => {
-    const error = {};
+type ErrorType = {
+    email: string
+    password: string
+}
+type ValuesType = {
+    email?: string
+    password?: string
+}
+export const validate = (values: ValuesType) => {
+    const error: ErrorType = {
+        email: '',
+        password: ''
+    };
     if (!values.email) {
         error.email = 'Required';
     } else if (

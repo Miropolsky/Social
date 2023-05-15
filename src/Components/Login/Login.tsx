@@ -2,11 +2,19 @@ import { Field, Form, Formik } from 'formik';
 import React from 'react';
 import { validate } from '../../utils/validators/validators';
 import { connect } from 'react-redux';
-import { login, logout, getCaptchaUrl } from '../../redux/authReducer.ts';
+import { login, logout, getCaptchaUrl } from '../../redux/authReducer';
 import { Navigate } from 'react-router-dom';
+import { AppStateType } from '../../redux/reduxStore';
 
-function Login(props) {
-    const onSubmit = (formData, actions) => {
+type PropsLoginType = {
+    login: (email: string | null, password: string | null, rememberMe: boolean, captcha: any, setStatus: Function) => void,
+    isAuth: boolean,
+    captchaUrl: string | null,
+    getCaptchaUrl: (text: string) => void;
+}
+
+function Login(props: PropsLoginType) {
+    const onSubmit = (formData:ValuesFormType, actions: any) => {
         props.login(
             formData.email,
             formData.password,
@@ -31,7 +39,20 @@ function Login(props) {
     );
 }
 
-const LoginForm = (props) => {
+type ValuesFormType = {
+    email: string,
+    password: string,
+    rememberMe: boolean,
+    captcha: any
+}
+
+type PropsLoginFormType = {
+    onSubmit: (formData:ValuesFormType, actions: any) => void,
+    captchaUrl: string | null,
+    getCaptchaUrl: (text: string) => void;
+}
+
+const LoginForm = (props: PropsLoginFormType) => {
     return (
         <Formik
             initialValues={{
@@ -40,7 +61,7 @@ const LoginForm = (props) => {
                 rememberMe: false,
                 captcha: '',
             }}
-            onSubmit={(values, actions) => props.onSubmit(values, actions)}
+            onSubmit={(values: ValuesFormType, actions: any) => props.onSubmit(values, actions)}
             validate={validate}
         >
             {({ errors, touched, isSubmitting, status }) => (
@@ -103,7 +124,12 @@ const LoginForm = (props) => {
         </Formik>
     );
 };
-const mapStateToProps = (state) => ({
+
+type MapStateToProps = {
+    isAuth: boolean,
+    captchaUrl: string | null
+}
+const mapStateToProps = (state: AppStateType): MapStateToProps => ({
     isAuth: state.auth.isAuth,
     captchaUrl: state.auth.captchaUrl,
 });

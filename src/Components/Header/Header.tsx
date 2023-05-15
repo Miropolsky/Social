@@ -1,7 +1,13 @@
 import { NavLink } from 'react-router-dom';
 import styles from './Header.module.scss';
 
-export default function Header(props) {
+
+type PropsType = {
+    isAuth: boolean,
+    login: string | null,
+    logout: () => void
+}
+export default function Header(props: PropsType) {
     return (
         <div className={styles.container}>
             <div className={styles.loginBlock}>

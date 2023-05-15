@@ -2,9 +2,9 @@ import React from 'react';
 
 type PropsType = {
     status: string
-    authorizedUserId: number
-    userId: number
-    updateStatus: (newStatus: string, userId: number) => void
+    authorizedUserId: number | null
+    userId: number | null
+    updateStatus: (newStatus: string | null, userId: number | null) => void
 }
 
 type StateType = {
