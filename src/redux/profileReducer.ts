@@ -1,8 +1,8 @@
 import { ThunkAction } from 'redux-thunk';
-import { profileApi } from '../api/api';
-import { PostType, ProfileType } from '../types/types';
+import { PhotosType, PostType, ProfileType } from '../types/types';
 import { AppStateType } from './reduxStore';
 import { Dispatch } from 'redux';
+import { profileApi } from '../api/profileApi';
 const ADD_POST = 'ADD-POST';
 const SET_USER_PROFILE = 'SET_USER_PROFILE';
 const SET_STATUS = 'SET_STATUS';
@@ -67,9 +67,9 @@ const setError = (error: string | null) : SetErrorType => {
 };
 type SavePhotoActionType = {
     type: typeof SAVE_PHOTO,
-    photo: File | null
+    photo: PhotosType | null
 }
-const savePhotoSuccess = (photo: File):SavePhotoActionType => {
+const savePhotoSuccess = (photo: PhotosType): SavePhotoActionType => {
     return {
         type: SAVE_PHOTO,
         photo,
@@ -135,42 +135,42 @@ const profileReducer = (state = initialState, action: ActionsType):InitialStateT
 export type DispatchProfileType = Dispatch<ActionsType>
 // type ThunkType = ThunkAction<Promise<void>, AppStateType, unknown, ActionsType>
 type ThunkType = ThunkAction<Promise<void>, AppStateType, unknown, ActionsType>;
-const setUserProfile = (userId:number | null): ThunkType => {
+const setUserProfile = (userId:number): ThunkType => {
     return async (dispatch) => {
         const res = await profileApi.getUser(userId);
         dispatch(setUserProfileSuccess(res));
     };
 };
-const getStatus = (userId: number | null): ThunkType => {
+const getStatus = (userId: number): ThunkType => {
     return async (dispatch) => {
         const res = await profileApi.getStatus(userId);
-        dispatch(setStatus(res.data));
+        dispatch(setStatus(res));
     };
 };
-const updateStatus = (status: string| null, authorizedUserId: number | null): ThunkType => {
+const updateStatus = (status: string, authorizedUserId: number): ThunkType => {
     return async (dispatch) => {
         const res = await profileApi.updateStatus(status);
-        if (res.data.resultCode === 0) {
+        if (res.resultCode === 0) {
             dispatch(getStatus(authorizedUserId));
         }
     };
 };
-const savePhoto = (photo: File | null):ThunkType => {
+const savePhoto = (photo: PhotosType):ThunkType => {
     return async (dispatch) => {
         const res = await profileApi.savePhoto(photo);
-        if (res.data.resultCode === 0) {
-            dispatch(savePhotoSuccess(res.data.data.photos));
+        if (res.resultCode === 0) {
+            dispatch(savePhotoSuccess(res.data.photos));
         }
     };
 };
-const saveProfile = (profile: ProfileType | null):ThunkType => {
+const saveProfile = (profile: ProfileType):ThunkType => {
     return async (dispatch) => {
         const res = await profileApi.saveProfile(profile);
-        if (res.data.resultCode === 0 && profile) {
+        if (res.resultCode === 0 && profile) {
             dispatch(setUserProfile(profile.userId));
             dispatch(setError(null));
         } else {
-            dispatch(setError(res.data.messages[0]));
+            dispatch(setError(res.messages[0]));
         }
     };
 };

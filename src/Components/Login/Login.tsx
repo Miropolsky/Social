@@ -2,12 +2,12 @@ import { Field, Form, Formik } from 'formik';
 import React from 'react';
 import { validate } from '../../utils/validators/validators';
 import { connect } from 'react-redux';
-import { login, logout, getCaptchaUrl } from '../../redux/authReducer';
+import { login, getCaptchaUrl } from '../../redux/authReducer';
 import { Navigate } from 'react-router-dom';
 import { AppStateType } from '../../redux/reduxStore';
 
 type PropsLoginType = {
-    login: (email: string | null, password: string | null, rememberMe: boolean, captcha: any, setStatus: Function) => void,
+    login: (email: string, password: string, rememberMe: boolean, captcha: string | null, setStatus: Function) => void,
     isAuth: boolean,
     captchaUrl: string | null,
     getCaptchaUrl: (text: string) => void;
@@ -43,7 +43,7 @@ type ValuesFormType = {
     email: string,
     password: string,
     rememberMe: boolean,
-    captcha: any
+    captcha: string | null
 }
 
 type PropsLoginFormType = {
@@ -133,6 +133,6 @@ const mapStateToProps = (state: AppStateType): MapStateToProps => ({
     isAuth: state.auth.isAuth,
     captchaUrl: state.auth.captchaUrl,
 });
-export default connect(mapStateToProps, { login, logout, getCaptchaUrl })(
+export default connect(mapStateToProps, { login, getCaptchaUrl })(
     Login
 );

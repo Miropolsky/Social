@@ -1,5 +1,7 @@
 import { ThunkAction } from 'redux-thunk';
-import { authApi, securityApi } from '../api/api';
+import { ResultCodeEnum } from '../api/api';
+import { securityApi } from '../api/securityApi';
+import { ResultCodeForCaptchEnum, authApi } from '../api/authApi';
 import { AppStateType } from './reduxStore';
 const SET_USER_DATA = 'auth/SET_USER_DATA';
 const GET_CAPTCHA_URL = 'auth/GET_CAPTCHA_URL';
@@ -68,23 +70,22 @@ type ThunkType = ThunkAction<Promise<void>, AppStateType, unknown, ActionsType>
 const getAuthUserData = ():ThunkType => {
     return async (dispatch) => {
         let res = await authApi.getUser();
-
-        if (res.resultCode === 0) {
+        if (res.resultCode === ResultCodeEnum.Success) {
             let { login, id, email } = res.data;
             dispatch(setAuthUserDataSuccess(id, email, login, true));
         }
     };
 };
 
-const login = (email: string | null, password: string | null, rememberMe: boolean, captcha: any, setStatus: Function): ThunkType => {
+const login = (email: string, password: string, rememberMe: boolean, captcha: any, setStatus: Function): ThunkType => {
     return async (dispatch) => {
         let res = await authApi.login(email, password, rememberMe, captcha);
-        if (res.data.resultCode === 0) {
+        if (res.resultCode === ResultCodeEnum.Success) {
             dispatch(getAuthUserData());
-        } else if (res.data.resultCode === 10) {
+        } else if (res.resultCode === ResultCodeForCaptchEnum.CaptchaIsRequired) {
             dispatch(getCaptchaUrl());
         } else {
-            setStatus({ error: res.data.messages });
+            setStatus({ error: res.messages });
         }
     };
 };
@@ -92,7 +93,7 @@ const login = (email: string | null, password: string | null, rememberMe: boolea
 const getCaptchaUrl = ():ThunkType => {
     return async (dispatch) => {
         let res = await securityApi.getCaptchUrl();
-        const captchaUrl = res.data.url;
+        const captchaUrl = res.url;
         dispatch(getCaptchaUrlSuccess(captchaUrl));
     };
 };
@@ -100,7 +101,7 @@ const getCaptchaUrl = ():ThunkType => {
 const logout = ():ThunkType => {
     return async (dispatch) => {
         let res = await authApi.logout();
-        if (res.data.resultCode === 0) {
+        if (res.resultCode === ResultCodeEnum.Success) {
             dispatch(setAuthUserDataSuccess(null, null, null, false));
         }
     };
