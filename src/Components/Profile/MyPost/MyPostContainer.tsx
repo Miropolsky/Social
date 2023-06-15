@@ -1,5 +1,5 @@
 import { connect } from 'react-redux';
-import { DispatchProfileType, addPostActionCreator } from '../../../redux/profileReducer';
+import { DispatchProfileType, actions } from '../../../redux/profileReducer';
 import { MyPost } from './MyPost';
 import { AppStateType } from '../../../redux/reduxStore';
 import { PostType } from '../../../types/types';
@@ -20,7 +20,7 @@ type MapDispatchPropsType = {
 const mapDispatchToProps = (dispatch:DispatchProfileType):MapDispatchPropsType => {
     return {
         addPost: (textPost: string) => {
-            dispatch(addPostActionCreator(textPost));
+            dispatch(actions.addPostActionCreator(textPost));
         },
     };
 };

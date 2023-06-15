@@ -2,7 +2,7 @@ import { DialogItem } from './DialogItem/DialogItem';
 import { Message } from './Message/Message';
 import styles from './Dialogs.module.scss';
 import { Field, Form, Formik } from 'formik';
-import { DialogType, MessageType } from '../../redux/diaglogReducer';
+import { DialogType, MessageType } from '../../types/types';
 
 type PropsDialogsType = {
     addMessage: (text: string ) => void,

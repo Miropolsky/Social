@@ -1,28 +1,7 @@
-import { ThunkAction } from "redux-thunk";
-import { AppStateType } from "./reduxStore";
+import { InferActionsTypes } from "./reduxStore";
+import { Dispatch } from "react";
 
-const ADD_MESSAGE = 'ADD-MESSAGE';
-
-export type DialogType = {
-    name: string,
-    id: number,
-    imgUrl: string
-}
-export type MessageType = {
-    message: string,
-    id: number,
-}
-
-type DialogInitialStateType = {
-    dialogs: Array<DialogType>,
-    messages: Array<MessageType>
-}
-type AddMessageActionCreatorType = {
-    type: typeof ADD_MESSAGE,
-    text: string,
-}
-
-const initialState: DialogInitialStateType = {
+const initialState = {
     dialogs: [
         {
             name: 'Andrey',
@@ -50,7 +29,6 @@ const initialState: DialogInitialStateType = {
             imgUrl: 'https://cdn1.ozone.ru/s3/multimedia-c/6156836316.jpg',
         },
     ],
-
     messages: [
         { id: 1, message: 'Привет! Как дела?' },
         { id: 2, message: 'Привет, у меня отлично, у тебя как?' },
@@ -58,21 +36,16 @@ const initialState: DialogInitialStateType = {
     ],
 };
 
-
-
-
-const addMessageActionCreator = (text: string): AddMessageActionCreatorType => {
-    return {
-        type: ADD_MESSAGE,
+const actions = {
+    addMessageActionCreator: (text: string) => ({
+        type: 'SN/DIALOGS/ADD-MESSAGE',
         text,
-    };
-};
+    } as const),
+}
 
-type ActionsType = AddMessageActionCreatorType;
-
-const dialogReducer = (state = initialState, action: ActionsType): DialogInitialStateType => {
+const dialogReducer = (state = initialState, action: ActionsType): InitialStateType => {
     switch (action.type) {
-        case ADD_MESSAGE: {
+        case 'SN/DIALOGS/ADD-MESSAGE': {
             return {
                 ...state,
                 messages: [
@@ -89,10 +62,9 @@ const dialogReducer = (state = initialState, action: ActionsType): DialogInitial
     }
 };
 
-type ThunkType = ThunkAction<void, AppStateType, unknown,ActionsType>
+export { dialogReducer, actions };
 
-const addMessage = (text: string):ThunkType => (dispatch) => {
-    dispatch(addMessageActionCreator(text));
-}
-
-export { dialogReducer, addMessageActionCreator, addMessage };
+export type InitialStateType = typeof initialState;
+type ActionsType = InferActionsTypes<typeof actions>;
+// type ThunkType = BaseThunkType<ActionsType>
+export type DispatchDialogType = Dispatch<ActionsType>

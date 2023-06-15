@@ -1,16 +1,4 @@
-type FriendType = {
-    name: string,
-    id: Number,
-    imgUrl: string
-}
-type SiteBarInitialStateType = {
-    friends: Array<FriendType>,
-};
-
-type SiteBarReducerType = (state: SiteBarInitialStateType) => SiteBarInitialStateType
-
-
-const initialState: SiteBarInitialStateType = {
+const initialState = {
     friends: [
         {
             name: 'Andrey',
@@ -31,7 +19,7 @@ const initialState: SiteBarInitialStateType = {
 };
 
 
-const siteBarReducer: SiteBarReducerType = (state = initialState) => {
+const siteBarReducer = (state = initialState) => {
     return state;
 };
 

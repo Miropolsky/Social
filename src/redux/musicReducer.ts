@@ -1,14 +1,4 @@
-type MusicType = {
-    id: number,
-    track: string,
-    author: string
-}
-
-export type MusicInitialStateType = {
-    musics: Array<MusicType>
-}
-
-const initialState: MusicInitialStateType = {
+const initialState = {
     musics: [
         { id: 0, track: 'Темная ночь', author: 'Каспийский груз' },
         { id: 1, track: 'Дальнобойщики', author: 'Красный огонек' },

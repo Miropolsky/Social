@@ -34,3 +34,20 @@ export type UserType = {
     photos: PhotosType
     followed: boolean
 }
+
+export type DialogType = {
+    id: number,
+    name: string
+    imgUrl: string
+}
+
+export type MessageType = {
+    id: number,
+    message: string
+}
+
+export type MusicType = {
+    id: number,
+    track: string,
+    author: string
+}
