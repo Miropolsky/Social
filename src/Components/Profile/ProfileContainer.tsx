@@ -84,7 +84,7 @@ let mapStateToProps = (state: AppStateType): MapStateToPropsType => ({
     error: state.profilePage.errorSaveProfile,
 });
 
-export default compose<React.Component>(
+export default compose<React.ComponentType>(
     connect(mapStateToProps, {
         setUserProfile,
         getStatus,

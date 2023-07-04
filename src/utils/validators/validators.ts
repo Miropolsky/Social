@@ -1,12 +1,10 @@
+import { ValuesFormType } from "../../Components/Login/LoginForm"
+
 type ErrorType = {
     email: string
     password: string
 }
-type ValuesType = {
-    email?: string
-    password?: string
-}
-export const validate = (values: ValuesType) => {
+export const validate = (values: ValuesFormType) => {
     const error: ErrorType = {
         email: '',
         password: ''

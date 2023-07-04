@@ -1,8 +1,9 @@
 import NavMenu from './NavMenu/NavMenu';
 import styles from './NavBar.module.scss';
 import Friends from './Frineds/Friends';
+import { FriendType } from '../../types/types';
 
-export default function NavBar({ frinedsData }) {
+export default function NavBar({ frinedsData }: {frinedsData: Array<FriendType>}) {
     return (
         <div className={styles.container}>
             <NavMenu text='Profile' link='profile' />

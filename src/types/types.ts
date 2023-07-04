@@ -51,3 +51,9 @@ export type MusicType = {
     track: string,
     author: string
 }
+
+export type FriendType = {
+    name: string,
+    imgUrl: string;
+    id: number
+}

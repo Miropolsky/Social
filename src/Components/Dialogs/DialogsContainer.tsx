@@ -12,7 +12,7 @@ const mapStateToProps = (state: AppStateType) => {
     };
 };
 
-export default compose<React.Component>(
+export default compose<React.ComponentType>(
     connect(mapStateToProps, {
         addMessage: actions.addMessageActionCreator
     }),

@@ -13,6 +13,7 @@ import musicReducer from './musicReducer';
 import { authReducer } from './authReducer';
 import thunkMiddleware, { ThunkAction } from 'redux-thunk';
 import { appReducer } from './appReducer';
+import { chatReducer } from './chatReducer';
 
 let reducers = combineReducers({
     profilePage: profileReducer,
@@ -22,10 +23,12 @@ let reducers = combineReducers({
     musicPage: musicReducer,
     auth: authReducer,
     app: appReducer,
+    chat: chatReducer
 });
 
 type RootReducerType = typeof reducers;
 export type AppStateType = ReturnType<RootReducerType>;
+export type AppDispatch = typeof store.dispatch;
 export type BaseThunkType<A extends Action, R = Promise<void>> = ThunkAction<R, AppStateType, unknown, A>
 export type InferActionsTypes<T> = T extends {[key: string]: (...args: any[]) => infer U} ? U : never;
 //@ts-ignore
