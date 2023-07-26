@@ -1,5 +1,4 @@
 import { Link } from 'react-router-dom';
-import styles from './Header.module.scss';
 import { Header } from 'antd/es/layout/layout';
 import { Row, Col } from 'antd/es/grid';
 import { UserOutlined } from '@ant-design/icons';

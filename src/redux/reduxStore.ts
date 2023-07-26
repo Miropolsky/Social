@@ -14,6 +14,7 @@ import { authReducer } from './authReducer';
 import thunkMiddleware, { ThunkAction } from 'redux-thunk';
 import { appReducer } from './appReducer';
 import { chatReducer } from './chatReducer';
+import { newsReducer } from './newsReducer';
 
 let reducers = combineReducers({
     profilePage: profileReducer,
@@ -23,7 +24,8 @@ let reducers = combineReducers({
     musicPage: musicReducer,
     auth: authReducer,
     app: appReducer,
-    chat: chatReducer
+    chat: chatReducer,
+    news: newsReducer
 });
 
 type RootReducerType = typeof reducers;

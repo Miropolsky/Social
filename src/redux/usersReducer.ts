@@ -7,7 +7,7 @@ import { ResponseType } from '../api/api';
 
 const initialState = {
     users: [] as Array<UserType>,
-    pageSize: 5,
+    pageSize: 10,
     totalUsersCount: 20,
     currentPage: 1,
     isFetching: true,

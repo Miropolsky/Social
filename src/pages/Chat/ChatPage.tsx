@@ -8,10 +8,11 @@ import {
 import { AnyAction } from 'redux';
 import { AppStateType } from '../../redux/reduxStore';
 import { ChatMessageType } from '../../api/chatApi';
+import { Avatar, Button, Input, Space } from 'antd';
 
 const ChatPage: React.FC = () => {
     return (
-        <div>
+        <div style={{ marginLeft: '25px' }}>
             <Chat />
         </div>
     );
@@ -67,7 +68,7 @@ const Messages: React.FC = () => {
     };
     return (
         <div
-            style={{ height: '400px', overflowY: 'auto' }}
+            style={{ height: window.innerHeight - 320, overflowY: 'auto' }}
             onScroll={scrollHandler}
         >
             {messages.map((m, i) => (
@@ -81,11 +82,17 @@ const Messages: React.FC = () => {
 const Message: React.FC<{ message: ChatMessageType }> = React.memo(
     ({ message }) => {
         return (
-            <div>
-                <img src={message.photo} alt='avatar' width={40} height={40} />
-                <b>{message.userName}</b>
-                <div>{message.message}</div>
-                <hr></hr>
+            <div style={{ height: 65 }}>
+                <Space size={10}>
+                    <Avatar src={message.photo} size={50} />
+                    <div>
+                        <div style={{ fontWeight: 'bold', marginBottom: 5 }}>
+                            {message.userName}
+                        </div>
+
+                        <div>{message.message}</div>
+                    </div>
+                </Space>
             </div>
         );
     }
@@ -107,22 +114,26 @@ const AddMessageForm: React.FC = () => {
         }
     };
     return (
-        <div>
+        <div style={{ marginTop: 20 }}>
             <div>
-                <textarea
-                    onChange={(e) => setMessage(e.currentTarget.value)}
+                <Input.TextArea
+                    placeholder='Введите сообщение'
                     value={message}
                     onKeyDown={(e) => textareaSend(e)}
-                ></textarea>
+                    onChange={(e) => setMessage(e.currentTarget.value)}
+                    size='large'
+                    style={{ width: '25%', resize: 'none' }}
+                ></Input.TextArea>
             </div>
-            <div>
-                <button
-                    disabled={status !== 'ready'}
-                    onClick={sendMessageHandler}
-                >
-                    send
-                </button>
-            </div>
+
+            <Button
+                style={{ marginTop: 15 }}
+                type='primary'
+                disabled={status !== 'ready'}
+                onClick={sendMessageHandler}
+            >
+                Send
+            </Button>
         </div>
     );
 };

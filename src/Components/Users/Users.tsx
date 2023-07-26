@@ -101,15 +101,17 @@ export default function Users() {
                 pageSize={pageSize}
             />
             <UsersSearchForm onFilterChange={onFilterChange} />
-            {users.map((u) => (
-                <User
-                    key={u.id}
-                    u={u}
-                    followingInProgress={followingInProgress}
-                    follow={following}
-                    unfollow={unfollowing}
-                />
-            ))}
+            <div className={styles.users}>
+                {users.map((u) => (
+                    <User
+                        key={u.id}
+                        u={u}
+                        followingInProgress={followingInProgress}
+                        follow={following}
+                        unfollow={unfollowing}
+                    />
+                ))}
+            </div>
         </div>
     );
 }

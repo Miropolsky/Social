@@ -1,4 +1,4 @@
-import { BrowserRouter, Link, Route, Routes } from 'react-router-dom';
+import { Link, Route, Routes, useLocation } from 'react-router-dom';
 import './App.css';
 // import DialogsContainer from './Components/Dialogs/DialogsContainer';
 // import ProfileContainer from './Components/Profile/ProfileContainer';
@@ -11,7 +11,7 @@ import {
     NotificationOutlined,
 } from '@ant-design/icons';
 import { Layout, Menu } from 'antd';
-import React, { Suspense } from 'react';
+import React, { Suspense, useEffect } from 'react';
 import { connect } from 'react-redux';
 import { Login } from './Components/Login/Login';
 import MusicContainer from './Components/Music/MusicContainer';
@@ -39,193 +39,159 @@ type DispatchPropsType = {
     initializeApp: () => void;
 };
 
-class App extends React.Component<MapPropsType & DispatchPropsType> {
-    componentDidMount() {
-        this.props.initializeApp();
-    }
+const linksMenu = ['profile', 'dialogs', 'news', 'music', 'users', 'chat'];
 
-    render() {
-        if (!this.props.initialized) {
-            return <Preloader />;
-        }
-        return (
-            <BrowserRouter basename='/'>
-                <AppHeader />
-                <Layout>
-                    <Sider
-                        breakpoint='lg'
-                        collapsedWidth='0'
-                        // onBreakpoint={(broken) => {
-                        //     console.log(broken);
-                        // }}
-                        // onCollapse={(collapsed, type) => {
-                        //     console.log(collapsed, type);
-                        // }}
-                    >
-                        <div className='demo-logo-vertical' />
-                        <Menu
-                            theme='dark'
-                            mode='inline'
-                            defaultSelectedKeys={['4']}
-                            items={[
-                                {
-                                    icon: UserOutlined,
-                                    title: 'Profile',
-                                    link: 'profile',
-                                },
-                                {
-                                    icon: MailOutlined,
-                                    title: 'Message',
-                                    link: 'dialogs',
-                                },
-                                {
-                                    icon: GlobalOutlined,
-                                    title: 'News',
-                                    link: 'news',
-                                },
-                                {
-                                    icon: NotificationOutlined,
-                                    title: 'Music',
-                                    link: 'music',
-                                },
-                                {
-                                    icon: SettingOutlined,
-                                    title: 'Setting',
-                                    link: 'setting',
-                                },
-                                {
-                                    icon: UserSwitchOutlined,
-                                    title: 'Users',
-                                    link: 'users',
-                                },
-                                {
-                                    icon: MailOutlined,
-                                    title: 'Chat',
-                                    link: 'chat',
-                                },
-                            ].map((item, index) => ({
-                                key: String(index + 1),
-                                icon: React.createElement(item.icon),
-                                label: <Link to={item.link}>{item.title}</Link>,
-                            }))}
-                        />
-                    </Sider>
+const App: React.FC<MapPropsType & DispatchPropsType> = (props) => {
+    const location = useLocation();
+    const curPage =
+        linksMenu.findIndex((e) => e === location.pathname.slice(1)) + 1;
+    useEffect(() => {
+        props.initializeApp();
+        // eslint-disable-next-line
+    }, []);
+    return (
+        <>
+            {!props.initialized ? (
+                <Preloader />
+            ) : (
+                <>
+                    <AppHeader />
                     <Layout>
-                        {/* <HeaderContainer /> */}
-                        <Content style={{ margin: '0px 0px 0' }}>
-                            <div
+                        <Sider
+                            breakpoint='lg'
+                            collapsedWidth='0'
+                            // onBreakpoint={(broken) => {
+                            //     console.log(broken);
+                            // }}
+                            // onCollapse={(collapsed, type) => {
+                            //     console.log(collapsed, type);
+                            // }}
+                        >
+                            <div className='demo-logo-vertical' />
+                            <Menu
+                                theme='dark'
+                                mode='inline'
+                                defaultSelectedKeys={[`${curPage}`]}
+                                items={[
+                                    {
+                                        icon: UserOutlined,
+                                        title: 'Profile',
+                                        link: 'profile',
+                                    },
+                                    {
+                                        icon: MailOutlined,
+                                        title: 'Message',
+                                        link: 'dialogs',
+                                    },
+                                    {
+                                        icon: GlobalOutlined,
+                                        title: 'News',
+                                        link: 'news',
+                                    },
+                                    {
+                                        icon: NotificationOutlined,
+                                        title: 'Music',
+                                        link: 'music',
+                                    },
+                                    {
+                                        icon: UserSwitchOutlined,
+                                        title: 'Users',
+                                        link: 'users',
+                                    },
+                                    {
+                                        icon: MailOutlined,
+                                        title: 'Chat',
+                                        link: 'chat',
+                                    },
+                                ].map((item, index) => ({
+                                    key: String(index + 1),
+                                    icon: React.createElement(item.icon),
+                                    label: (
+                                        <Link to={item.link}>{item.title}</Link>
+                                    ),
+                                }))}
+                            />
+                        </Sider>
+                        <Layout>
+                            <Content
                                 style={{
-                                    padding: 24,
-                                    minHeight: 700,
-                                    background: 'white',
+                                    margin: '0px 0px 0',
                                 }}
                             >
-                                <Suspense
-                                    fallback={
-                                        <div>
-                                            <Preloader />
-                                        </div>
-                                    }
+                                <div
+                                    style={{
+                                        backgroundColor: '#f0f0f0',
+                                        padding: 24,
+                                        minHeight: 700,
+                                        background: 'white',
+                                    }}
                                 >
-                                    <Routes>
-                                        <Route
-                                            path='*'
-                                            element={<ProfileContainer />}
-                                        />
-                                        <Route
-                                            path='profile'
-                                            element={<ProfileContainer />}
-                                        >
+                                    <Suspense
+                                        fallback={
+                                            <div>
+                                                <Preloader />
+                                            </div>
+                                        }
+                                    >
+                                        <Routes>
                                             <Route
-                                                path=':userId'
+                                                path='*'
                                                 element={<ProfileContainer />}
                                             />
-                                        </Route>
-                                        <Route
-                                            path='/dialogs/*'
-                                            element={<DialogsContainer />}
-                                        />
-                                        <Route
-                                            path='/users/*'
-                                            element={<UsersPage />}
-                                        />
-                                        <Route path='news' element={<News />} />
-                                        <Route
-                                            path='login'
-                                            element={<Login />}
-                                        />
-                                        <Route
-                                            path='chat'
-                                            element={<ChatPage />}
-                                        />
-                                        <Route
-                                            path='music'
-                                            element={<MusicContainer />}
-                                        />
-                                        <Route
-                                            path='setting'
-                                            element={<Setting />}
-                                        />
-                                    </Routes>
-                                </Suspense>
-                            </div>
-                        </Content>
-                        <Footer style={{ textAlign: 'center' }}>
-                            Социальная сеть @Miropolsky
-                        </Footer>
+                                            <Route
+                                                path='profile'
+                                                element={<ProfileContainer />}
+                                            >
+                                                <Route
+                                                    path=':userId'
+                                                    element={
+                                                        <ProfileContainer />
+                                                    }
+                                                />
+                                            </Route>
+                                            <Route
+                                                path='/dialogs/*'
+                                                element={<DialogsContainer />}
+                                            />
+                                            <Route
+                                                path='/users/*'
+                                                element={<UsersPage />}
+                                            />
+                                            <Route
+                                                path='news'
+                                                element={<News />}
+                                            />
+                                            <Route
+                                                path='login'
+                                                element={<Login />}
+                                            />
+                                            <Route
+                                                path='chat'
+                                                element={<ChatPage />}
+                                            />
+                                            <Route
+                                                path='music'
+                                                element={<MusicContainer />}
+                                            />
+                                        </Routes>
+                                    </Suspense>
+                                </div>
+                            </Content>
+                            <Footer
+                                style={{
+                                    textAlign: 'center',
+                                    backgroundColor: '#e3e3e3',
+                                }}
+                            >
+                                Социальная сеть @Miropolsky
+                            </Footer>
+                        </Layout>
                     </Layout>
-                </Layout>
-            </BrowserRouter>
-        );
-    }
-}
-// <BrowserRouter basename='/'>
-//     <div className='App'>
-//         <HeaderContainer />
-//         <div className='content'>
-//             <NavBarContainer />
-//             {/* <Profile className='profile'/> */}
-//             <Suspense
-//                 fallback={
-//                     <div>
-//                         <Preloader />
-//                     </div>
-//                 }
-//             >
-//                 <Routes>
-//                     <Route
-//                         path='*'
-//                         element={<ProfileContainer />}
-//                     />
-//                     <Route
-//                         path='profile'
-//                         element={<ProfileContainer />}
-//                     >
-//                         <Route
-//                             path=':userId'
-//                             element={<ProfileContainer />}
-//                         />
-//                     </Route>
-//                     <Route
-//                         path='/dialogs/*'
-//                         element={<DialogsContainer />}
-//                     />
-//                     <Route
-//                         path='/users/*'
-//                         element={<UsersPage />}
-//                     />
-//                     <Route path='news' element={<News />} />
-//                     <Route path='login' element={<Login />} />
-//                     <Route
-//                         path='music'
-//                         element={<MusicContainer />}
-//                     />
-//                     <Route path='setting' element={<Setting />} />
-//                 </Routes>
-//             </Suspense>
-//         </div>
-//     </div>
-// </BrowserRouter>
+                </>
+            )}
+        </>
+    );
+};
 
 const mapStateToProps = (state: AppStateType) => ({
     initialized: state.app.initialized,

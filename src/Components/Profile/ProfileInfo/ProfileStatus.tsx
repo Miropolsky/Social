@@ -1,18 +1,22 @@
+import { Input } from 'antd';
 import React from 'react';
 
 type PropsType = {
-    status: string
-    authorizedUserId: number | null
-    userId: number | null
-    updateStatus: (newStatus: string | null, userId: number | null) => void
-}
+    status: string;
+    authorizedUserId: number | null;
+    userId: number | null;
+    updateStatus: (newStatus: string | null, userId: number | null) => void;
+};
 
 type StateType = {
-    editMode: boolean
-    status: string
-}
+    editMode: boolean;
+    status: string;
+};
 
-export default class ProfileStatus extends React.Component<PropsType, StateType> {
+export default class ProfileStatus extends React.Component<
+    PropsType,
+    StateType
+> {
     state = {
         editMode: false,
         status: this.props.status,
@@ -50,19 +54,19 @@ export default class ProfileStatus extends React.Component<PropsType, StateType>
                 {!this.state.editMode && (
                     <div>
                         <span onDoubleClick={this.activedEditMode}>
-                            <b>Статус: </b>
                             {this.props.status || '-----'}
                         </span>
                     </div>
                 )}
                 {this.state.editMode && (
                     <div>
-                        <input
+                        <Input
+                            style={{ width: '30%' }}
                             autoFocus={true}
                             onBlur={this.deactivedEditMode}
                             value={this.state.status}
                             onChange={this.onStatusChange}
-                        ></input>
+                        />
                     </div>
                 )}
             </div>

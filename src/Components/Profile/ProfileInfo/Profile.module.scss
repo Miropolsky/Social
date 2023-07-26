@@ -1,5 +1,11 @@
-.descriptionBlock{
-    padding: 10px;
+.profileInfo{
+    // border: 1px solid rgb(208, 208, 208);
+    // padding: 15px;
+    box-shadow: 15px 15px 12px #8e8e8e27;
+    font-size: 15px;
+    .titleDescrib{
+        font-weight: bold;
+    }
 }
 
 .error{
@@ -9,4 +15,14 @@
     margin-bottom: 10px;
     padding-left: 10px;
     font-size: 18px;
+}
+.fullName{
+    font-size: 20px;
+    font-weight: bold;
+}
+.avatar{
+    img{
+        border: 1px solid black;
+        box-shadow: 5px 5px 2px #8e8e8e27;
+    }
 }

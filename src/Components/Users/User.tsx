@@ -2,34 +2,50 @@ import styles from './Users.module.scss';
 import cn from 'classnames';
 import defaultAvatar from '../../assets/img/defaultAvatar.jpg';
 import React from 'react';
-import { NavLink } from 'react-router-dom';
+import { NavLink, useNavigate } from 'react-router-dom';
 import { UserType } from '../../types/types';
+import { Avatar, Button, Card, Space } from 'antd';
+import { UserOutlined } from '@ant-design/icons';
+import Meta from 'antd/es/card/Meta';
 
 type PropsType = {
-    u: UserType,
-    followingInProgress: Array<number>
-    follow: (userId: number) => void
-    unfollow: (userId: number) => void
-}
+    u: UserType;
+    followingInProgress: Array<number>;
+    follow: (userId: number) => void;
+    unfollow: (userId: number) => void;
+};
 
-export default function User({ u, followingInProgress, follow, unfollow }: PropsType) {
+export default function User({
+    u,
+    followingInProgress,
+    follow,
+    unfollow,
+}: PropsType) {
+    const navigate = useNavigate();
+
     return (
         <div className={cn(styles.user)}>
-            <span>
-                <div>
-                    <NavLink to={`/profile/${u.id}`}>
-                        <img
-                            src={
-                                u.photos.small ? u.photos.small : defaultAvatar
-                            }
-                            alt={'Аватарка'}
-                            className={cn(styles.userPhoto)}
-                        />
-                    </NavLink>
-                </div>
-                <div>
+            <Card
+                hoverable
+                style={{ width: 220 }}
+                // bordered={false}
+                cover={
+                    <img
+                        style={{ width: 220 }}
+                        alt='avatar'
+                        src={u.photos.small ? u.photos.small : defaultAvatar}
+                    />
+                }
+            >
+                <Meta
+                    title={u.name}
+                    style={{
+                        marginBottom: 10,
+                    }}
+                />
+                <Space size='middle'>
                     {u.followed ? (
-                        <button
+                        <Button
                             disabled={followingInProgress.some(
                                 (id) => id === u.id
                             )}
@@ -38,9 +54,9 @@ export default function User({ u, followingInProgress, follow, unfollow }: Props
                             }}
                         >
                             Unfollow
-                        </button>
+                        </Button>
                     ) : (
-                        <button
+                        <Button
                             disabled={followingInProgress.some(
                                 (id) => id === u.id
                             )}
@@ -49,20 +65,16 @@ export default function User({ u, followingInProgress, follow, unfollow }: Props
                             }}
                         >
                             Follow
-                        </button>
+                        </Button>
                     )}
-                </div>
-            </span>
-            <span>
-                <span>
-                    <div>{u.name}</div>
-                    <div>{u.status}</div>
-                </span>
-                <span>
-                    {/* <div>{u.location.country}</div>
-                        <div>{u.location.city}</div> */}
-                </span>
-            </span>
+                    <Button
+                        style={{ marginLeft: 10 }}
+                        onClick={() => navigate(`/profile/${u.id}`)}
+                    >
+                        Profile
+                    </Button>
+                </Space>
+            </Card>
         </div>
     );
 }
