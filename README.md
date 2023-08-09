@@ -9,4 +9,4 @@ Password: miropolsky</br>
 
 
 
-Страница новостей(работает только с localhost)
+Страница новостей (работает только с localhost)
