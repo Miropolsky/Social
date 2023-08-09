@@ -1,25 +1,72 @@
 .container {
-    display: grid;
-    grid-template-columns: 2fr 10fr;
-
-    .dialogs{
-        padding: 10px;
-        .dialog{
-            text-align: center;
-            margin-top: 10px;
-            img{
-                margin-top: 2px;
-                width: 50px;
-                height: 50px;
-                border-radius: 50%;
-                
+    .contentBlock{
+        display: flex;
+        .dialogs, .dialogsSmall{
+            width: 100%;
+            height: 90%;
+            overflow-y: auto;
+            .dialog, .dialogSmall{
+                padding: 10px;
+                display: flex;
+                column-gap: 10px;
+                padding-top: 10px;
+                border-bottom: 1px solid rgb(190, 190, 190);
+               
+                cursor: pointer;
+                img{
+                    border-radius: 50%;
+                    
+                }
+                .name{
+                    font-size: 16px;
+                }
+            }
+            
+            .dialogSmall:last-child{
+                border: none;
+            }
+            .dialog:hover, .dialogSmall:hover{
+                background-color: rgb(220, 233, 245);
+            }
+            .dialogActive{
+                background-color: rgb(220, 233, 245);
+            }
+            // .dialogSmall{
+            //     width: 20%;
+            // }
+        }
+        .dialogsSmall{
+            width: 25%;
+            border-right: 1px solid rgb(190, 190, 190);
+        }
+        .messagesBlock{
+            padding: 20px;
+            width: 100%;
+            .messages{
+                height: 500px;
+                overflow-y: auto;
+                .message{
+                    display: flex;
+                    align-items: center;
+                    // margin-bottom: 10px;
+                    height: 70px;
+                    // border-bottom: 1px solid rgb(190, 190, 190);
+                    .blockMessage{
+                        margin-left: 13px;
+                        display: flex;
+                        flex-direction: column;
+                        .name{
+                            font-size: 15px;
+                            font-weight: 500;
+                        }
+                        .messageText{
+                            
+                        }
+                    }
+                }
             }
         }
-    }
+        
 
-    .messages{
-        padding: 10px;
     }
-
-    
 }

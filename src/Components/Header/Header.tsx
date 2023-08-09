@@ -17,7 +17,7 @@ export default function AppHeader() {
     const login = useSelector(selectCurrentUserLogin);
     const dispatch = useDispatch();
     const logoutCallback = () => {
-        dispatch(logout as unknown as AnyAction);
+        dispatch(logout() as unknown as AnyAction);
     };
     return (
         <Header>

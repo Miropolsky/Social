@@ -1,4 +1,16 @@
 .blockTrack{
     display: flex;
+    align-items: center;
+    padding: 10px;
     column-gap: 5px;
+    cursor: pointer;
+    border-radius: 5px;
 }
+.blockTrack:hover{
+    background-color: rgb(235, 235, 235);
+}
+
+.activeTrack{
+    background-color: rgb(216, 216, 216);
+}
+

@@ -1,0 +1,73 @@
+.component{
+  margin-bottom: 1%;
+  background-color: white;
+  width: 100%;
+  border: 1px solid rgb(196, 197, 198);
+  border-radius: 10px;
+  display: flex;
+  height: 100px;
+    .componentInfo {
+      display: flex;
+      align-items: center;
+      .name{
+        margin-left: 10px;
+      }
+    }
+}
+
+.progress{
+  margin-left: 2%;
+  width: calc(100% - 150px);
+  padding-right: 2%;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  justify-content: center;
+}
+.btns{
+  display: flex;
+  width: 150px;
+}
+  
+  .musicCover {
+    margin-left: 15px;
+    border-radius: 10%;
+  }
+  
+  .playButton {
+    background: none;
+    border: none;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .subTitle {
+    margin-top: -1em;
+    color: #4f4f4f;
+  }
+  
+  .time {
+    margin: 0 auto;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    color: #828282;
+    font-size: smaller;
+  }
+  
+  .timeline {
+    width: 100%;
+    background-color: #2781ae;
+  }
+  
+  input[type="range"] {
+    background-color: #277cae;
+  }
+  
+  @media (max-width: 900px) {
+    .component {
+      width: 50%;
+    }
+  }
+
+  

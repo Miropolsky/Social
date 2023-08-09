@@ -1,18 +1,19 @@
-import { Field, Form, Formik } from "formik";
+import { Button, Checkbox, Input } from 'antd';
+import { Field, Form, Formik } from 'formik';
 // import { validate } from '../../utils/validators/validators';
 
 type PropsLoginFormType = {
-    captchaUrl: string | null,
+    captchaUrl: string | null;
     // getCaptchaUrl: (text: string) => void ;
-    onSubmit: (formData: ValuesFormType, actions: any) => void
-}
+    onSubmit: (formData: ValuesFormType, actions: any) => void;
+};
 
 export type ValuesFormType = {
-    email: string,
-    password: string,
-    rememberMe: boolean,
-    captcha: string
-}
+    email: string;
+    password: string;
+    rememberMe: boolean;
+    captcha: string;
+};
 
 const LoginForm = (props: PropsLoginFormType) => {
     return (
@@ -25,34 +26,59 @@ const LoginForm = (props: PropsLoginFormType) => {
             }}
             // validate={(values) => validate(values)}
             onSubmit={(values: ValuesFormType, actions: any) => {
-                props.onSubmit(values, actions)
+                props.onSubmit(values, actions);
             }}
         >
             {({ errors, touched, isSubmitting, status }) => (
                 <Form>
                     <div>
-                        <Field type='email' name='email' placeholder='Email' />
-                        {errors.email && touched.email && (
+                        <Field type='email' name='email' placeholder='Email'>
+                            {({ field }: any) => (
+                                <Input
+                                    {...field}
+                                    placeholder='Email'
+                                    style={{ width: '25%' }}
+                                />
+                            )}
+                        </Field>
+                        {/* {errors.email && touched.email && (
                             <div>{errors.email}</div>
-                        )}
+                        )} */}
                     </div>
-                    <div>
+                    <div style={{ marginTop: '1%' }}>
                         <Field
                             name='password'
                             placeholder='Password'
                             type='password'
-                        />
-                        {errors.password && touched.password && (
+                        >
+                            {({ field }: any) => (
+                                <Input.Password
+                                    style={{ width: '25%' }}
+                                    {...field}
+                                    placeholder='input password'
+                                />
+                            )}
+                        </Field>
+                        {/* {errors.password && touched.password && (
                             <div>{errors.password}</div>
-                        )}
+                        )} */}
                     </div>
                     <div>
                         <Field
                             id={'rememberMe'}
                             name='rememberMe'
                             type='checkbox'
-                        />
-                        <label htmlFor='rememberMe'>remember Me </label>
+                        >
+                            {({ field }: any) => (
+                                <Checkbox
+                                    style={{ marginTop: '1%' }}
+                                    {...field}
+                                >
+                                    Remember Me
+                                </Checkbox>
+                            )}
+                        </Field>
+                        {/* <label htmlFor='rememberMe'>remember Me </label> */}
                     </div>
                     {props.captchaUrl && (
                         <div>
@@ -74,19 +100,24 @@ const LoginForm = (props: PropsLoginFormType) => {
                     )}
                     {status ? (
                         status.error ? (
-                            <div>{status.error}</div>
+                            <div style={{ color: 'red', fontSize: '12px' }}>
+                                {status.error}
+                            </div>
                         ) : null
                     ) : null}
-                    <button
-                        type='submit'
+                    <Button
+                        style={{ marginTop: '1%' }}
+                        htmlType='submit'
+                        type='primary'
                         disabled={!!Object.keys(errors).length && isSubmitting}
                     >
                         Login
-                    </button>
+                    </Button>
+                    {/* <button type='submit'>Login</button> */}
                 </Form>
             )}
         </Formik>
     );
 };
 
-export { LoginForm }
+export { LoginForm };

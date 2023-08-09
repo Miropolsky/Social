@@ -11,7 +11,7 @@ import {
     NotificationOutlined,
 } from '@ant-design/icons';
 import { Layout, Menu } from 'antd';
-import React, { Suspense, useEffect } from 'react';
+import React, { Suspense, useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import { Login } from './Components/Login/Login';
 import MusicContainer from './Components/Music/MusicContainer';
@@ -43,8 +43,19 @@ const linksMenu = ['profile', 'dialogs', 'news', 'music', 'users', 'chat'];
 
 const App: React.FC<MapPropsType & DispatchPropsType> = (props) => {
     const location = useLocation();
-    const curPage =
-        linksMenu.findIndex((e) => e === location.pathname.slice(1)) + 1;
+    const [curPage, setCurPage] = useState(1);
+    useEffect(() => {
+        if (location.pathname.indexOf('profile') >= 0) {
+            setCurPage(1);
+        } else if (location.pathname.indexOf('dialogs') >= 0) {
+            setCurPage(2);
+        } else {
+            setCurPage(
+                linksMenu.findIndex((e) => e === location.pathname.slice(1)) + 1
+            );
+        }
+    }, [location]);
+
     useEffect(() => {
         props.initializeApp();
         // eslint-disable-next-line
@@ -72,6 +83,7 @@ const App: React.FC<MapPropsType & DispatchPropsType> = (props) => {
                                 theme='dark'
                                 mode='inline'
                                 defaultSelectedKeys={[`${curPage}`]}
+                                // selectedKeys={[location.pathname]}
                                 items={[
                                     {
                                         icon: UserOutlined,

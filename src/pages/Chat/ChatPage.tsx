@@ -9,13 +9,15 @@ import { AnyAction } from 'redux';
 import { AppStateType } from '../../redux/reduxStore';
 import { ChatMessageType } from '../../api/chatApi';
 import { Avatar, Button, Input, Space } from 'antd';
+import { useNavigate } from 'react-router-dom';
 
 const ChatPage: React.FC = () => {
-    return (
-        <div style={{ marginLeft: '25px' }}>
-            <Chat />
-        </div>
-    );
+    const navigate = useNavigate();
+    const isAuth = useSelector((state: AppStateType) => state.auth.isAuth);
+    if (!isAuth) {
+        navigate('/login');
+    }
+    return <div style={{ marginLeft: '25px' }}>{isAuth && <Chat />}</div>;
 };
 
 const Chat: React.FC = () => {
@@ -43,6 +45,7 @@ const Chat: React.FC = () => {
 
 const Messages: React.FC = () => {
     const messages = useSelector((state: AppStateType) => state.chat.messages);
+
     const messageAnchorRef = useRef<HTMLDivElement>(null);
     const [isAutoScrollActive, setAutoScrollActive] = useState(false);
     useEffect(() => {
@@ -81,10 +84,16 @@ const Messages: React.FC = () => {
 
 const Message: React.FC<{ message: ChatMessageType }> = React.memo(
     ({ message }) => {
+        const navigate = useNavigate();
         return (
             <div style={{ height: 65 }}>
                 <Space size={10}>
-                    <Avatar src={message.photo} size={50} />
+                    <Avatar
+                        src={message.photo}
+                        size={50}
+                        style={{ cursor: 'pointer' }}
+                        onClick={() => navigate(`/profile/${message.userId}`)}
+                    />
                     <div>
                         <div style={{ fontWeight: 'bold', marginBottom: 5 }}>
                             {message.userName}

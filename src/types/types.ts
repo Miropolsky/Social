@@ -38,12 +38,16 @@ export type UserType = {
 export type DialogType = {
     id: number,
     name: string
-    imgUrl: string
+    photos: PhotosType
 }
 
 export type MessageType = {
     id: number,
-    message: string
+    body: string
+    addedAt: string,
+    recipientId: number,
+    senderId: number,
+    senderName: string,
 }
 
 export type MusicType = {

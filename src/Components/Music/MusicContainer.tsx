@@ -1,14 +1,11 @@
 import { connect } from 'react-redux';
 import Music from './Music';
 import { AppStateType } from '../../redux/reduxStore';
-import { MusicInitialStateType } from '../../redux/musicReducer';
+import { InitialState } from '../../redux/musicReducer';
 
-type MapStatePropsType = MusicInitialStateType;
+type MapStatePropsType = InitialState;
 const mapStatetoProps = (state: AppStateType): MapStatePropsType => {
-    return {
-        musics: state.musicPage.musics,
-    };
+    return {};
 };
-
 
 export default connect(mapStatetoProps)(Music);

@@ -1,38 +1,16 @@
-import { InferActionsTypes } from "./reduxStore";
+import { BaseThunkType, InferActionsTypes } from "./reduxStore";
 import { Dispatch } from "react";
+// import { ymessage } from 'antd';
+import { DialogsApi } from "../api/dialogs";
+import { usersApi } from "../api/usersApi";
+import { UserType } from "../types/types";
+
+
 
 const initialState = {
     dialogs: [
-        {
-            name: 'Andrey',
-            id: 1,
-            imgUrl: 'https://shutniks.com/wp-content/uploads/2019/12/Avatarki_paren_6_07164309.jpg',
-        },
-        {
-            name: 'Alexey',
-            id: 2,
-            imgUrl: 'https://i.ytimg.com/vi/_EVvJeClXtI/maxresdefault.jpg?sqp=-oaymwEmCIAKENAF8quKqQMa8AEB-AH-CYAC0AWKAgwIABABGHggISh_MA8=&rs=AOn4CLDSY4Cw7ELBJFRs1jFEYaVO6kmxWA',
-        },
-        {
-            name: 'Sergey',
-            id: 3,
-            imgUrl: 'https://coolsen.ru/wp-content/uploads/2021/06/15-8.jpg',
-        },
-        {
-            name: 'Vasya',
-            id: 4,
-            imgUrl: 'https://pixelbox.ru/wp-content/uploads/2021/09/avatar-boys-vk-46.jpg',
-        },
-        {
-            name: 'Ivan',
-            id: 5,
-            imgUrl: 'https://cdn1.ozone.ru/s3/multimedia-c/6156836316.jpg',
-        },
-    ],
+    ]  as UserType[],
     messages: [
-        { id: 1, message: 'Привет! Как дела?' },
-        { id: 2, message: 'Привет, у меня отлично, у тебя как?' },
-        { id: 3, message: 'Хорошо' },
     ],
 };
 
@@ -41,6 +19,15 @@ const actions = {
         type: 'SN/DIALOGS/ADD-MESSAGE',
         text,
     } as const),
+    setMessage: (userId: number, message: []) => ({
+        type: 'SN/DIALOGS/GET-MESSAGE',
+        userId,
+        message
+    } as const),
+    setDialogs: (friends: UserType[]) => ({
+        type: 'SN/DIALOGS/SET-DIALOGS',
+        dialogs: friends
+    } as const),
 }
 
 const dialogReducer = (state = initialState, action: ActionsType): InitialStateType => {
@@ -48,23 +35,47 @@ const dialogReducer = (state = initialState, action: ActionsType): InitialStateT
         case 'SN/DIALOGS/ADD-MESSAGE': {
             return {
                 ...state,
-                messages: [
-                    ...state.messages,
-                    {
-                        id: 4,
-                        message: action.text,
-                    },
-                ],
             };
+        }
+        case 'SN/DIALOGS/GET-MESSAGE': {
+            return {
+                ...state,
+                messages: action.message
+            }
+        }
+        case 'SN/DIALOGS/SET-DIALOGS': {
+            return {
+                ...state,
+                dialogs: action.dialogs
+            }
         }
         default:
             return state;
     }
 };
 
-export { dialogReducer, actions };
+const getMessage = (userId: number): ThunkType => {
+    return async (dispatch) => {
+        let res = await DialogsApi.getMessage(userId);
+        dispatch(actions.setMessage(userId, res.items))
+    }
+}
+const sendMessage = (userId: number, text: string): ThunkType => {
+    return async (dispatch) => {
+        let res = await DialogsApi.sendMessage(userId, text)
+    }
+}
+
+const getFriends = (): ThunkType => {
+    return async (dispatch) => {
+        let res = await usersApi.getUsers(1, 20, '', true);
+        dispatch(actions.setDialogs(res.items))
+    }
+}
+
+export { dialogReducer, actions, sendMessage, getMessage, getFriends };
 
 export type InitialStateType = typeof initialState;
 type ActionsType = InferActionsTypes<typeof actions>;
-// type ThunkType = BaseThunkType<ActionsType>
+type ThunkType = BaseThunkType<ActionsType>
 export type DispatchDialogType = Dispatch<ActionsType>

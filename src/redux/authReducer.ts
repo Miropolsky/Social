@@ -65,6 +65,7 @@ const getCaptchaUrl = ():ThunkType => {
 
 const logout = ():ThunkType => {
     return async (dispatch) => {
+        console.log('exit')
         let res = await authApi.logout();
         if (res.resultCode === ResultCodeEnum.Success) {
             dispatch(actions.setAuthUserDataSuccess(null, null, null, false));
