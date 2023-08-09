@@ -2,5 +2,5 @@
 
 [Demo](https://miropolsky.github.io/Social/)
 
-Login: alesega@yandex.ru
+Login: alesega@yandex.ru</br>
 Password: miropolsky
